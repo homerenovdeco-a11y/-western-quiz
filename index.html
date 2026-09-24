@@ -609,9 +609,11 @@ function showResult(){
     const c=tc(i);const isWin=scores[i]===max;
     const d=document.createElement("div");d.className="rteam"+(isWin?" winner":"");
     d.style.cssText="border-color:"+(isWin?"var(--gold)":c.bd)+";";
-    d.innerHTML="<div class=\"rname\" style=\"color:"+c.main+"\">"+tn(i)+"</div>"+
-      "<div class=\"rpts"+(isWin?" win":"\")\" style=\""+(!isWin?"color:"+c.main:"")+"\">"+scores[i]+"</div>"+
-      "<div class=\"rptssub\">points</div>";
+    const winCls = isWin ? " win" : "";
+    const colStyle = isWin ? "" : "color:"+c.main;
+    d.innerHTML = "<div class='rname' style='color:"+c.main+"'>"+tn(i)+"</div>"+
+      "<div class='rpts"+winCls+"' style='"+colStyle+"'>"+scores[i]+"</div>"+
+      "<div class='rptssub'>points</div>";
     rs.appendChild(d);
   });
 
