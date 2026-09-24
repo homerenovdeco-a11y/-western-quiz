@@ -68,10 +68,9 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 /* Scores 4 équipes */
 .scoreboard4{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;}
 .sb4{display:flex;flex-direction:column;align-items:center;padding:.5rem .4rem;border-radius:10px;border:2px solid var(--border);background:white;transition:border-color .3s,background .3s,transform .15s;}
-.sb4.active{transform:scale(1.05);}
 .sb4-name{font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.1rem;}
 .sb4-pts{font-family:"Playfair Display",serif;font-size:2rem;font-weight:700;line-height:1;}
-@keyframes scorePop{0%{transform:scale(1.05)}30%{transform:scale(1.5)}60%{transform:scale(.92)}100%{transform:scale(1.05)}}
+@keyframes scorePop{0%{transform:scale(1)}30%{transform:scale(1.45)}60%{transform:scale(.92)}100%{transform:scale(1)}}
 .score-pop{animation:scorePop .5s cubic-bezier(.34,1.56,.64,1);}
 
 /* Chrono */
@@ -102,21 +101,34 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .opt:nth-child(1){animation-delay:.04s}.opt:nth-child(2){animation-delay:.08s}
 .opt:nth-child(3){animation-delay:.12s}.opt:nth-child(4){animation-delay:.16s}
 @keyframes optIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
-.opt:not(.correct):not(.wrong):not(.timeout):not(.disabled):hover{border-color:var(--gold);background:#FFFBF4;transform:translateX(3px);}
+.opt:not(.correct):not(.timeout):not(.disabled):hover{border-color:var(--gold);background:#FFFBF4;transform:translateX(3px);}
 .opt-l{width:26px;height:26px;border-radius:50%;background:var(--ivory-2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:var(--muted);flex-shrink:0;}
 .opt.correct{border-color:var(--correct);background:var(--correct-lt);}
 .opt.correct .opt-l{background:var(--correct);border-color:var(--correct);color:white;}
-.opt.wrong{border-color:var(--wrong);background:var(--wrong-lt);opacity:.65;}
-.opt.wrong .opt-l{background:var(--wrong);border-color:var(--wrong);color:white;}
 .opt.timeout{border-color:var(--border);background:var(--ivory-2);opacity:.5;}
 .opt.disabled{cursor:default;pointer-events:none;}
+
+/* Révélation */
+.btn-reveal{width:100%;padding:.8rem 1rem;background:var(--ink);color:white;border:none;border-radius:12px;font-family:"DM Sans",sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:transform .1s,opacity .2s;}
+.btn-reveal:hover{transform:scale(1.01);}
+
+/* Zone de pointage */
+.check-zone{display:none;background:white;border:1px solid var(--border);border-radius:14px;padding:.75rem .85rem .85rem;animation:fadeIn .25s ease;}
+.check-zone.show{display:block;}
+.check-lbl{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.55rem;text-align:center;}
+.check-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;}
+.chk{position:relative;border:2px solid var(--border);background:white;border-radius:12px;padding:.65rem .4rem .55rem;text-align:center;cursor:pointer;font-family:"DM Sans",sans-serif;transition:transform .1s,border-color .2s,background .2s;user-select:none;}
+.chk:hover{transform:translateY(-2px);}
+.chk-name{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.25;display:block;}
+.chk-box{margin:.35rem auto 0;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:transparent;background:var(--ivory-2);transition:background .2s,color .2s,border-color .2s;}
+.chk.on .chk-box{color:white;}
+.check-hint{margin-top:.55rem;font-size:.68rem;color:var(--muted);text-align:center;}
 
 /* Feedback */
 .feedback{padding:.65rem .85rem;border-radius:8px;font-size:.82rem;line-height:1.5;display:none;}
 .feedback.show{display:block;animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .feedback.ok{background:var(--correct-lt);color:var(--correct);border:1px solid #C8E6D3;}
-.feedback.ko{background:var(--wrong-lt);color:var(--wrong);border:1px solid #E8C8C8;}
 .feedback.to{background:var(--ivory-2);color:var(--muted);border:1px solid var(--border);}
 
 /* Panel DJ */
@@ -138,9 +150,6 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .ov-film{font-family:"Playfair Display",serif;font-weight:700;font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.1;color:var(--ink);margin-bottom:.3rem;}
 .ov-year{font-size:.85rem;color:var(--muted);font-style:italic;}
 .ov-tap{margin-top:1rem;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
-
-/* Boutons −1 équipes */
-.rm-btns{display:flex;gap:.4rem;flex-wrap:wrap;}
 
 /* Overlay confirm */
 .ov-msg{font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:1.4rem;line-height:1.4;}
@@ -167,7 +176,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .btn-rreplay{background:var(--gold);color:white;}
 
 #confettiCanvas{position:fixed;inset:0;z-index:300;pointer-events:none;}
-@media(max-width:520px){.opts{grid-template-columns:1fr;}.rscores{grid-template-columns:1fr 1fr;}.scoreboard4{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.opts{grid-template-columns:1fr;}.rscores{grid-template-columns:1fr 1fr;}.scoreboard4{grid-template-columns:repeat(2,1fr);}.check-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
@@ -188,10 +197,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   </div>
 
   <div class="rules">
-    🎙 <strong>Le DJ clique sur la réponse donnée par l’équipe</strong><br>
-    🐎 <strong>40 questions</strong> Western &amp; Country — 10 par équipe en alternance<br>
+    🎙 <strong>Toutes les équipes répondent à la même question</strong><br>
+    🐎 <strong>40 questions</strong> Western &amp; Country<br>
     ⏱ <strong>15 secondes</strong> par question · pas de pénalité si temps écoulé<br>
-    ✅ Points attribués <strong>automatiquement</strong> au clic
+    ✅ Le DJ révèle la réponse puis <strong>coche les équipes qui ont bon</strong> — 1 point chacune
   </div>
 
   <button class="btn-launch" onclick="startGame()">▶ Lancer le quiz !</button>
@@ -205,8 +214,9 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="isub">4 équipes · 40 questions · 15 secondes</div>
   <div class="team-badges" id="teamBadges"></div>
   <div class="intro-rules">
-    🎙 Le DJ clique sur la réponse annoncée<br>
+    🎙 Tout le monde répond à la même question<br>
     ⏱ 15 secondes — bip dès les 5 dernières<br>
+    ✅ Le DJ coche les équipes qui ont la bonne réponse<br>
     ⚔️ En cas d’égalité, questions de départage !<br>
     🏆 L’équipe avec le plus de points gagne
   </div>
@@ -226,7 +236,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
       <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
       <div style="display:flex;justify-content:space-between;">
         <span class="prog-lbl" id="progLbl">1 / 40</span>
-        <span class="turn-info" id="turnInfo">Tour Équipe 1</span>
+        <span class="turn-info" id="turnInfo">Toutes les équipes</span>
       </div>
     </div>
   </div>
@@ -237,11 +247,19 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   </div>
 
   <div class="opts" id="optsGrid"></div>
+
+  <button class="btn-reveal" id="bReveal" onclick="revealAnswer()">👁 Révéler la réponse</button>
+
+  <div class="check-zone" id="checkZone">
+    <div class="check-lbl">✅ Qui a la bonne réponse ?</div>
+    <div class="check-grid" id="checkGrid"></div>
+    <div class="check-hint">Touche une équipe pour lui donner le point · retouche pour l’annuler</div>
+  </div>
+
   <div class="feedback" id="feedback"></div>
 
   <div class="dj-panel">
     <span class="dj-lbl">🎙 DJ</span>
-    <div class="rm-btns" id="rmBtns"></div>
     <button class="btn-dj btn-hsm" onclick="askHome()">🏠</button>
     <button class="btn-dj btn-nextq" id="bNext" onclick="nextQ()" disabled>Suivant →</button>
   </div>
@@ -249,11 +267,11 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <!-- OVERLAY RÉPONSE -->
 <div class="overlay" id="ovReveal" onclick="closeReveal()">
-  <div class="ov-box" onclick="event.stopPropagation()">
-    <div class="ov-lbl" id="ovLbl" style="color:var(--correct)">✓ Bonne réponse</div>
+  <div class="ov-box">
+    <div class="ov-lbl" id="ovLbl" style="color:var(--correct)">✓ La bonne réponse</div>
     <div class="ov-film" id="ovFilm">—</div>
     <div class="ov-year" id="ovYear"></div>
-    <div class="ov-tap">Tap pour continuer</div>
+    <div class="ov-tap">Tape n’importe où pour continuer</div>
   </div>
 </div>
 
@@ -362,11 +380,11 @@ const TIMER = 15, CIRC = 2 * Math.PI * 25;
 const NT = 4; // nombre d’équipes
 let names = ["Équipe Bleue","Équipe Marron","Équipe Rouge","Équipe Noire"];
 let order = [], cur = 0, scores = [0,0,0,0], answers = [];
-let tInt = null, tLeft = 0, optOrder = [], answered = false;
+let tInt = null, tLeft = 0, optOrder = [], revealed = false;
+let picked = [false,false,false,false];
 let tbMode = false, tbIdx = 0, confirmCb = null;
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function curTeam(){return cur % NT;}
 function tn(t){return names[t];}
 function tc(t){return TEAM_COLORS[t];}
 
@@ -402,6 +420,7 @@ function launchGame(){
   document.getElementById("sIntro").style.display="none";
   document.getElementById("sGame").style.display="flex";
   buildScoreboard();
+  buildCheckGrid();
   requestFSAuto();
   renderQ();
 }
@@ -418,46 +437,81 @@ function buildScoreboard(){
     d.innerHTML="<div class=\"sb4-name\" style=\"color:"+c.main+"\">"+n+"</div><div class=\"sb4-pts\" id=\"sp"+i+"\" style=\"color:"+c.main+"\">0</div>";
     sb.appendChild(d);
   });
-  buildRmBtns();
 }
 
-function buildRmBtns(){
-  const rb=document.getElementById("rmBtns");rb.innerHTML="";
+// ═══════════════════════════════════════
+//  GRILLE DE POINTAGE (le DJ coche)
+// ═══════════════════════════════════════
+function buildCheckGrid(){
+  const g=document.getElementById("checkGrid");g.innerHTML="";
   names.forEach((n,i)=>{
     const c=tc(i);
-    const btn=document.createElement("button");btn.className="btn-dj";
-    btn.style.cssText="background:"+c.lt+";color:"+c.main+";border:1.5px solid "+c.bd+";";
-    btn.textContent="−1 "+n.split(" ")[1]||n;
-    btn.onclick=()=>askRemove(i);
-    rb.appendChild(btn);
+    const d=document.createElement("div");d.className="chk";d.id="chk"+i;
+    d.style.cssText="border-color:"+c.bd+";";
+    d.innerHTML="<span class=\"chk-name\" style=\"color:"+c.main+"\">"+n+"</span><div class=\"chk-box\" id=\"chkb"+i+"\">✓</div>";
+    d.onclick=()=>toggleTeam(i);
+    g.appendChild(d);
   });
+}
+
+function toggleTeam(i){
+  if(!revealed)return;
+  const c=tc(i);
+  const el=document.getElementById("chk"+i),box=document.getElementById("chkb"+i);
+  picked[i]=!picked[i];
+  if(picked[i]){
+    scores[i]++;
+    el.classList.add("on");el.style.background=c.lt;el.style.borderColor=c.main;
+    box.style.background=c.main;box.style.borderColor=c.main;
+    soundPoint();
+  } else {
+    scores[i]=Math.max(0,scores[i]-1);
+    el.classList.remove("on");el.style.background="white";el.style.borderColor=c.bd;
+    box.style.background="";box.style.borderColor="";
+  }
+  document.getElementById("sp"+i).textContent=scores[i];
+  animScore(i);
+  updateFeedback();
+}
+
+function resetChecks(){
+  picked=[false,false,false,false];
+  names.forEach((n,i)=>{
+    const c=tc(i);
+    const el=document.getElementById("chk"+i),box=document.getElementById("chkb"+i);
+    if(!el)return;
+    el.classList.remove("on");el.style.background="white";el.style.borderColor=c.bd;
+    box.style.background="";box.style.borderColor="";
+  });
+}
+
+function updateFeedback(){
+  const n=picked.filter(Boolean).length;
+  const fb=document.getElementById("feedback");
+  if(n===0){fb.textContent="Aucune équipe n’a trouvé… 🌵";fb.className="feedback show to";}
+  else{
+    const list=names.filter((x,i)=>picked[i]).join(", ");
+    fb.textContent="✓ +1 point pour "+list+" 🤠";fb.className="feedback show ok";
+  }
 }
 
 function updateScores(){
-  names.forEach((n,i)=>{
-    document.getElementById("sp"+i).textContent=scores[i];
-    const sb=document.getElementById("sb"+i);
-    sb.className="sb4"+(i===curTeam()?" active":"");
-    if(i===curTeam()) sb.style.borderColor=tc(i).main;
-    else sb.style.borderColor=tc(i).bd;
-  });
+  names.forEach((n,i)=>{document.getElementById("sp"+i).textContent=scores[i];});
 }
 
 // ═══════════════════════════════════════
 //  RENDER QUESTION
 // ═══════════════════════════════════════
 function renderQ(){
-  stopTimer();answered=false;
+  stopTimer();revealed=false;resetChecks();
   const q=tbMode?TIEBREAK[tbIdx]:Q[order[cur]];
   const total=Q.length;
-  const t=curTeam();
 
   updateScores();
-  document.getElementById("turnInfo").textContent="Tour de "+tn(t);
-  document.getElementById("turnInfo").style.color=tc(t).main;
 
   document.getElementById("progFill").style.width=(cur/total*100)+"%";
   document.getElementById("progLbl").textContent=(cur+1)+" / "+total;
+  document.getElementById("turnInfo").textContent=tbMode?"Départage":"Toutes les équipes";
 
   document.getElementById("qNum").textContent=tbMode?"Départage "+(tbIdx+1):"Question "+(cur+1);
   document.getElementById("qCat").textContent=q.cat;
@@ -471,12 +525,15 @@ function renderQ(){
   ["A","B","C","D"].forEach((l,i)=>{
     const d=document.createElement("div");d.className="opt";d.id="opt"+i;
     d.innerHTML="<span class=\"opt-l\">"+l+"</span><span>"+optOrder[i]+"</span>";
-    const ans=q.ans,info=q.info||"";
-    d.addEventListener("click",()=>pickOpt(i,optOrder[i],ans,info));
+    d.addEventListener("click",revealAnswer);
     grid.appendChild(d);
   });
 
+  document.getElementById("checkZone").classList.remove("show");
+  document.getElementById("bReveal").style.display="block";
+  document.getElementById("bReveal").textContent="👁 Révéler la réponse";
   document.getElementById("feedback").className="feedback";
+
   document.getElementById("bNext").disabled=true;
   const bn=document.getElementById("bNext");
   bn.className=(!tbMode&&cur===total-1)?"btn-dj btn-nextq fin":"btn-dj btn-nextq";
@@ -486,36 +543,35 @@ function renderQ(){
 }
 
 // ═══════════════════════════════════════
-//  PICK OPTION
+//  RÉVÉLATION DE LA RÉPONSE
 // ═══════════════════════════════════════
-function pickOpt(idx,chosen,correct,info){
-  if(answered)return;answered=true;stopTimer();
-  const t=curTeam();
-  const isRight=chosen===correct;
+function revealAnswer(){
+  if(revealed)return;revealed=true;stopTimer();
+  const q=tbMode?TIEBREAK[tbIdx]:Q[order[cur]];
+  const correct=q.ans,info=q.info||"";
 
   optOrder.forEach((o,i)=>{
     const el=document.getElementById("opt"+i);if(!el)return;
     el.classList.add("disabled");
     if(o===correct)el.classList.add("correct");
-    else if(i===idx&&!isRight)el.classList.add("wrong");
     else el.classList.add("timeout");
   });
 
-  if(isRight){scores[t]++;document.getElementById("sp"+t).textContent=scores[t];animScore(t);soundCorrect();}
-  else soundWrong();
-
-  const fb=document.getElementById("feedback");
-  if(isRight){fb.textContent="✓ Bravo "+tn(t)+" ! +1 point 🤠 "+info;fb.className="feedback show ok";}
-  else{fb.textContent="✗ C’était : "+correct+" — "+info;fb.className="feedback show ko";}
-
-  document.getElementById("ovLbl").textContent=isRight?"✓ Bonne réponse !":"✗ La bonne réponse était…";
-  document.getElementById("ovLbl").style.color=isRight?"var(--correct)":"var(--wrong)";
+  document.getElementById("ovLbl").textContent="✓ La bonne réponse";
+  document.getElementById("ovLbl").style.color="var(--correct)";
   document.getElementById("ovFilm").textContent=correct;
   document.getElementById("ovYear").textContent=info;
   document.getElementById("ovReveal").classList.add("show");
 
-  answers.push({team:t,correct,result:isRight?"ok":"ko"});
+  document.getElementById("bReveal").style.display="none";
+  document.getElementById("checkZone").classList.add("show");
   document.getElementById("bNext").disabled=false;
+
+  const fb=document.getElementById("feedback");
+  fb.textContent="Réponse : "+correct+" — "+info;
+  fb.className="feedback show to";
+
+  soundReveal();
 }
 
 function closeReveal(){document.getElementById("ovReveal").classList.remove("show");}
@@ -525,19 +581,19 @@ function closeReveal(){document.getElementById("ovReveal").classList.remove("sho
 // ═══════════════════════════════════════
 function nextQ(){
   closeReveal();
+  answers.push({q:tbMode?"tb"+tbIdx:cur,picked:picked.slice()});
   if(tbMode){
     tbIdx++;
-    // Check if a team is now ahead
     const max=Math.max(...scores);
     const winners=scores.filter(s=>s===max).length;
     if(winners===1||tbIdx>=TIEBREAK.length){showResult();return;}
-    answered=false;renderQ();return;
+    renderQ();return;
   }
   cur++;
   if(cur>=Q.length){
     const max=Math.max(...scores);
     const tied=scores.filter(s=>s===max).length;
-    if(tied>1){tbMode=true;tbIdx=0;answered=false;renderQ();}
+    if(tied>1){tbMode=true;tbIdx=0;renderQ();}
     else showResult();
   } else renderQ();
 }
@@ -554,16 +610,14 @@ function updateChrono(t){
   if(u)soundTick(t);
 }
 function handleTimeout(){
-  if(answered)return;
-  document.getElementById("feedback").textContent="⏱ Temps écoulé ! Le DJ révèle la réponse…";
+  if(revealed)return;
+  document.getElementById("feedback").textContent="⏱ Temps écoulé ! Ramasse les réponses puis révèle la solution…";
   document.getElementById("feedback").className="feedback show to";
-  document.getElementById("bNext").disabled=false;
 }
 
 // ═══════════════════════════════════════
 //  DJ CONTROLS
 // ═══════════════════════════════════════
-function askRemove(t){showConfirm("Retirer 1 point à "+tn(t)+" ?",()=>{if(scores[t]>0){scores[t]--;document.getElementById("sp"+t).textContent=scores[t];}});}
 function askHome(){showConfirm("Quitter la partie en cours ?",()=>goHome());}
 function showConfirm(msg,cb){confirmCb=cb;document.getElementById("ovMsg").textContent=msg;document.getElementById("ovC").classList.add("show");}
 function confirmYes(){if(confirmCb)confirmCb();closeConfirm();}
@@ -603,7 +657,6 @@ function showResult(){
   document.getElementById("rsub").textContent=sub;
 
   const rs=document.getElementById("rscores");rs.innerHTML="";
-  // Trier par score décroissant
   const sorted=[0,1,2,3].sort((a,b)=>scores[b]-scores[a]);
   sorted.forEach(i=>{
     const c=tc(i);const isWin=scores[i]===max;
@@ -632,8 +685,8 @@ function beep(f,d,v,t,w){const ac=getAC();if(!ac)return;v=v||.3;t=t||"sine";w=w!
 function noise(d,v,w,ac){const buf=ac.createBuffer(1,Math.floor(ac.sampleRate*d),ac.sampleRate);const da=buf.getChannelData(0);for(let i=0;i<da.length;i++)da[i]=(Math.random()*2-1)*Math.pow(1-i/da.length,1.2);const s=ac.createBufferSource(),g=ac.createGain();g.gain.setValueAtTime(v,w);s.buffer=buf;s.connect(g);g.connect(ac.destination);s.start(w);}
 function soundClap(){unlockAudio();const ac=getAC();if(!ac)return;noise(.05,.5,ac.currentTime,ac);beep(900,.04,.18,"square",ac.currentTime);}
 function soundTick(t){unlockAudio();beep(t<=2?1100:750,.07,t<=2?.4:.22,"square");}
-function soundCorrect(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;[392,523,659,784,1047,1319].forEach((f,i)=>beep(f,.22,.3+i*.08,"sine",n+i*.08));beep(196,.4,.35,"sine",n);for(let r=0;r<12;r++)noise(.07,.32,n+.1+r*.055,ac);}
-function soundWrong(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;beep(180,.18,.7,"sawtooth",n);beep(140,.18,.65,"sawtooth",n+.17);beep(110,.3,.6,"sawtooth",n+.33);}
+function soundReveal(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;[523,659,784].forEach((f,i)=>beep(f,.18,.28,"sine",n+i*.07));}
+function soundPoint(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;[784,1047].forEach((f,i)=>beep(f,.14,.3,"sine",n+i*.06));noise(.05,.25,n,ac);}
 function soundVictory(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;const m=[523,523,523,415,622,523,415,622,523,784,1047],d=[.12,.12,.12,.09,.35,.12,.09,.35,.12,.2,.6];let t=n;m.forEach((f,i)=>{beep(f,d[i],.3+i*.04,"sine",t);t+=d[i]+.02;});for(let r=0;r<18;r++)noise(.07,.35,n+.2+r*.06,ac);}
 
 // ═══════════════════════════════════════
