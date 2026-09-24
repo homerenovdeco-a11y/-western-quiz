@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Quiz Western & Country</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root{
+  --ivory:#FAF6EF;--ivory-2:#F0EAE0;--ink:#1A1410;--muted:#8A7A6A;--border:#E0D8CC;
+  --gold:#C9A96E;--gold-lt:#E8D5B0;
+  --correct:#4A7C59;--correct-lt:#EEF7F2;
+  --wrong:#8B3A3A;--wrong-lt:#FBF0F0;
+  --t0:#1A4A8A;--t0-lt:#D8E8F8;--t0-bd:#8AAED8;   /* Bleu */
+  --t1:#5C3010;--t1-lt:#F0E0C8;--t1-bd:#C8905A;   /* Marron */
+  --t2:#8A1A1A;--t2-lt:#F8D8D8;--t2-bd:#D88A8A;   /* Rouge */
+  --t3:#1A1A1A;--t3-lt:#E0E0E0;--t3-bd:#909090;   /* Noir */
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100vh;background:var(--ivory);color:var(--ink);font-family:"DM Sans",sans-serif;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 15%,rgba(201,169,110,.13) 0%,transparent 55%),
+             radial-gradient(ellipse at 85% 85%,rgba(92,48,16,.08) 0%,transparent 55%);}
+.app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ══ ACCUEIL ══ */
+#sHome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;min-height:100vh;}
+.clap{font-size:4rem;margin-bottom:.8rem;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+.htitle{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,9vw,5rem);font-weight:700;line-height:1.05;color:var(--ink);margin-bottom:.4rem;}
+.htitle em{font-style:italic;color:var(--gold);}
+.hsub{font-size:.95rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.8rem;}
+.divider{display:flex;align-items:center;gap:.8rem;margin:0 auto 1.6rem;max-width:320px;width:100%;}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--gold-lt);}
+.divider span{color:var(--gold);}
+
+/* Setup équipes */
+.teams-setup{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;width:100%;max-width:520px;margin-bottom:1.4rem;}
+.tf{display:flex;flex-direction:column;gap:.35rem;}
+.tf label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:.4rem;}
+.tf input{background:white;border:1.5px solid var(--border);border-radius:8px;padding:.6rem .9rem;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s;}
+.tf input:focus{border-color:var(--gold);}
+
+.rules{background:white;border:1px solid var(--border);border-radius:12px;padding:.85rem 1.2rem;font-size:.82rem;color:var(--muted);line-height:1.9;max-width:460px;text-align:left;margin-bottom:1.6rem;}
+.rules strong{color:var(--ink);}
+.btn-launch{padding:1rem 3rem;background:var(--gold);color:white;border:none;border-radius:12px;font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(201,169,110,.35);transition:transform .15s;margin-bottom:.8rem;}
+.btn-launch:hover{transform:scale(1.04);}
+.btn-fs{padding:.5rem 1.3rem;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.8rem;cursor:pointer;}
+.btn-fs:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══ INTRO ══ */
+#sIntro{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1.5rem;text-align:center;}
+.ititle{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,5vw,2.6rem);font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.isub{font-size:.9rem;color:var(--muted);font-style:italic;margin-bottom:1.8rem;}
+.team-badges{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.8rem;}
+.tbadge{border-radius:12px;padding:.8rem 1.2rem;text-align:center;min-width:110px;}
+.tbadge-name{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.2rem;}
+.tbadge-pts{font-family:"Playfair Display",serif;font-size:1.8rem;font-weight:700;line-height:1;}
+.intro-rules{background:white;border:1px solid var(--border);border-radius:12px;padding:.85rem 1.2rem;font-size:.82rem;color:var(--muted);line-height:1.9;max-width:440px;text-align:left;margin-bottom:1.8rem;}
+.intro-rules strong{color:var(--ink);}
+.btn-go{padding:1rem 3rem;background:var(--gold);color:white;border:none;border-radius:12px;font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(201,169,110,.35);transition:transform .15s;}
+.btn-go:hover{transform:scale(1.04);}
+
+/* ══ JEU ══ */
+#sGame{display:none;flex-direction:column;min-height:100vh;padding:.9rem .9rem .8rem;gap:.6rem;}
+
+/* Scores 4 équipes */
+.scoreboard4{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;}
+.sb4{display:flex;flex-direction:column;align-items:center;padding:.5rem .4rem;border-radius:10px;border:2px solid var(--border);background:white;transition:border-color .3s,background .3s,transform .15s;}
+.sb4.active{transform:scale(1.05);}
+.sb4-name{font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.1rem;}
+.sb4-pts{font-family:"Playfair Display",serif;font-size:2rem;font-weight:700;line-height:1;}
+@keyframes scorePop{0%{transform:scale(1.05)}30%{transform:scale(1.5)}60%{transform:scale(.92)}100%{transform:scale(1.05)}}
+.score-pop{animation:scorePop .5s cubic-bezier(.34,1.56,.64,1);}
+
+/* Chrono */
+.chrono-row{display:flex;align-items:center;justify-content:center;gap:.8rem;}
+.chrono-ring{position:relative;width:60px;height:60px;}
+.chrono-ring svg{transform:rotate(-90deg);width:60px;height:60px;}
+.c-track{fill:none;stroke:var(--gold-lt);stroke-width:5;}
+.c-arc{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .3s;}
+.c-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
+.c-num.urgent{color:var(--wrong);}.c-arc.urgent{stroke:var(--wrong);}
+.prog-wrap{flex:1;display:flex;flex-direction:column;gap:.25rem;}
+.prog-bar{height:4px;background:var(--gold-lt);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s;}
+.prog-lbl{font-size:.72rem;color:var(--muted);}
+.turn-info{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.18rem .7rem;border-radius:2rem;border:1.5px solid var(--gold-lt);color:var(--gold);background:#FFFBF0;}
+
+/* Carte question */
+.q-card{background:white;border:1px solid var(--border);border-radius:16px;padding:1.3rem 1.4rem 1.1rem;box-shadow:0 2px 16px rgba(26,20,16,.06);animation:cardIn .35s ease;}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.q-meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;flex-wrap:wrap;}
+.q-num{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
+.q-cat{font-size:.68rem;color:var(--muted);font-style:italic;}
+.q-text{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.3rem);line-height:1.55;color:var(--ink);border-left:3px solid var(--gold);padding-left:1rem;}
+
+/* Options */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;}
+.opt{background:white;border:2px solid var(--border);border-radius:12px;padding:.75rem .9rem;display:flex;align-items:center;gap:.6rem;font-size:.88rem;color:var(--ink);cursor:pointer;transition:border-color .2s,background .2s,transform .1s;animation:optIn .3s ease both;user-select:none;}
+.opt:nth-child(1){animation-delay:.04s}.opt:nth-child(2){animation-delay:.08s}
+.opt:nth-child(3){animation-delay:.12s}.opt:nth-child(4){animation-delay:.16s}
+@keyframes optIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.opt:not(.correct):not(.wrong):not(.timeout):not(.disabled):hover{border-color:var(--gold);background:#FFFBF4;transform:translateX(3px);}
+.opt-l{width:26px;height:26px;border-radius:50%;background:var(--ivory-2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:var(--muted);flex-shrink:0;}
+.opt.correct{border-color:var(--correct);background:var(--correct-lt);}
+.opt.correct .opt-l{background:var(--correct);border-color:var(--correct);color:white;}
+.opt.wrong{border-color:var(--wrong);background:var(--wrong-lt);opacity:.65;}
+.opt.wrong .opt-l{background:var(--wrong);border-color:var(--wrong);color:white;}
+.opt.timeout{border-color:var(--border);background:var(--ivory-2);opacity:.5;}
+.opt.disabled{cursor:default;pointer-events:none;}
+
+/* Feedback */
+.feedback{padding:.65rem .85rem;border-radius:8px;font-size:.82rem;line-height:1.5;display:none;}
+.feedback.show{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.feedback.ok{background:var(--correct-lt);color:var(--correct);border:1px solid #C8E6D3;}
+.feedback.ko{background:var(--wrong-lt);color:var(--wrong);border:1px solid #E8C8C8;}
+.feedback.to{background:var(--ivory-2);color:var(--muted);border:1px solid var(--border);}
+
+/* Panel DJ */
+.dj-panel{background:white;border:1px solid var(--border);border-radius:12px;padding:.55rem .8rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.dj-lbl{font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:.1rem;}
+.btn-dj{padding:.38rem .7rem;border:none;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;transition:transform .1s,opacity .15s;}
+.btn-dj:hover:not(:disabled){transform:scale(1.05);}
+.btn-dj:disabled{opacity:.3;cursor:default;}
+.btn-nextq{background:var(--ink);color:white;margin-left:auto;}
+.btn-nextq.fin{background:var(--gold);}
+.btn-hsm{background:var(--ivory-2);color:var(--muted);border:1px solid var(--border);}
+
+/* Overlay réponse */
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(26,20,16,.55);display:none;align-items:center;justify-content:center;animation:fadeIn .2s ease;}
+.overlay.show{display:flex;}
+.ov-box{background:white;border-radius:18px;padding:2rem 2.2rem;text-align:center;max-width:500px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.14);animation:popIn .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+.ov-lbl{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;}
+.ov-film{font-family:"Playfair Display",serif;font-weight:700;font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.1;color:var(--ink);margin-bottom:.3rem;}
+.ov-year{font-size:.85rem;color:var(--muted);font-style:italic;}
+.ov-tap{margin-top:1rem;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+
+/* Boutons −1 équipes */
+.rm-btns{display:flex;gap:.4rem;flex-wrap:wrap;}
+
+/* Overlay confirm */
+.ov-msg{font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:1.4rem;line-height:1.4;}
+.ov-btns{display:flex;gap:.7rem;justify-content:center;}
+.btn-no{padding:.65rem 1.6rem;border-radius:10px;background:var(--ivory-2);color:var(--muted);border:1.5px solid var(--border);font-family:"DM Sans",sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;}
+.btn-yes{padding:.65rem 1.6rem;border-radius:10px;background:var(--wrong);color:white;border:none;font-family:"DM Sans",sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;}
+
+/* ══ RÉSULTAT ══ */
+#sResult{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1.5rem;text-align:center;}
+.rcrown{font-size:4rem;margin-bottom:.5rem;}
+.rtitle{font-family:"Playfair Display",serif;font-size:clamp(2rem,7vw,3.5rem);font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.rsub{font-size:.88rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.6;max-width:460px;}
+.rscores{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.8rem;width:100%;max-width:520px;}
+.rteam{background:white;border:2px solid var(--border);border-radius:14px;padding:1.1rem;display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+.rteam.winner{transform:scale(1.05);box-shadow:0 4px 24px rgba(201,169,110,.25);border-color:var(--gold);}
+.rname{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.rpts{font-family:"Playfair Display",serif;font-size:3rem;font-weight:700;line-height:1;}
+.rpts.win{color:var(--gold);}
+.rptssub{font-size:.7rem;color:var(--muted);}
+.rbtns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;}
+.btn-r{padding:.82rem 1.8rem;border-radius:10px;font-family:"DM Sans",sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:transform .1s;}
+.btn-r:hover{transform:scale(1.04);}
+.btn-rhome{background:var(--ivory-2);color:var(--ink);border:1.5px solid var(--border);}
+.btn-rreplay{background:var(--gold);color:white;}
+
+#confettiCanvas{position:fixed;inset:0;z-index:300;pointer-events:none;}
+@media(max-width:520px){.opts{grid-template-columns:1fr;}.rscores{grid-template-columns:1fr 1fr;}.scoreboard4{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ACCUEIL -->
+<div id="sHome">
+  <div class="clap">🤠</div>
+  <div class="htitle">Quiz <em>Western</em></div>
+  <div class="hsub">🐎 Country · Western · Culture US</div>
+  <div class="divider"><span>★</span></div>
+
+  <div class="teams-setup" id="teamsSetup">
+    <div class="tf"><label style="color:var(--t0);">⬤ Équipe Bleue</label><input id="n0" type="text" value="Équipe Bleue" maxlength="16"></div>
+    <div class="tf"><label style="color:var(--t1);">⬤ Équipe Marron</label><input id="n1" type="text" value="Équipe Marron" maxlength="16"></div>
+    <div class="tf"><label style="color:var(--t2);">⬤ Équipe Rouge</label><input id="n2" type="text" value="Équipe Rouge" maxlength="16"></div>
+    <div class="tf"><label style="color:#1A1A1A;font-weight:700;">⬤ Équipe Noire</label><input id="n3" type="text" value="Équipe Noire" maxlength="16"></div>
+  </div>
+
+  <div class="rules">
+    🎙 <strong>Le DJ clique sur la réponse donnée par l’équipe</strong><br>
+    🐎 <strong>40 questions</strong> Western &amp; Country — 10 par équipe en alternance<br>
+    ⏱ <strong>15 secondes</strong> par question · pas de pénalité si temps écoulé<br>
+    ✅ Points attribués <strong>automatiquement</strong> au clic
+  </div>
+
+  <button class="btn-launch" onclick="startGame()">▶ Lancer le quiz !</button>
+  <button class="btn-fs" id="btnFS" onclick="toggleFS()">⛶ Plein écran</button>
+</div>
+
+<!-- INTRO -->
+<div id="sIntro">
+  <div style="font-size:3rem;margin-bottom:.7rem;">🤠</div>
+  <div class="ititle">Prêts pour le rodeo ?</div>
+  <div class="isub">4 équipes · 40 questions · 15 secondes</div>
+  <div class="team-badges" id="teamBadges"></div>
+  <div class="intro-rules">
+    🎙 Le DJ clique sur la réponse annoncée<br>
+    ⏱ 15 secondes — bip dès les 5 dernières<br>
+    ⚔️ En cas d’égalité, questions de départage !<br>
+    🏆 L’équipe avec le plus de points gagne
+  </div>
+  <button class="btn-go" onclick="launchGame()">Yeehaw ! 🐎</button>
+</div>
+
+<!-- JEU -->
+<div id="sGame">
+  <div class="scoreboard4" id="scoreboard4"></div>
+
+  <div class="chrono-row">
+    <div class="chrono-ring">
+      <svg viewBox="0 0 60 60"><circle class="c-track" cx="30" cy="30" r="25"/><circle class="c-arc" id="cArc" cx="30" cy="30" r="25" stroke-dasharray="157.1" stroke-dashoffset="0"/></svg>
+      <div class="c-num" id="cNum">15</div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+      <div style="display:flex;justify-content:space-between;">
+        <span class="prog-lbl" id="progLbl">1 / 40</span>
+        <span class="turn-info" id="turnInfo">Tour Équipe 1</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card" id="qCard">
+    <div class="q-meta"><span class="q-num" id="qNum">Question 1</span><span class="q-cat" id="qCat"></span></div>
+    <div class="q-text" id="qText"></div>
+  </div>
+
+  <div class="opts" id="optsGrid"></div>
+  <div class="feedback" id="feedback"></div>
+
+  <div class="dj-panel">
+    <span class="dj-lbl">🎙 DJ</span>
+    <div class="rm-btns" id="rmBtns"></div>
+    <button class="btn-dj btn-hsm" onclick="askHome()">🏠</button>
+    <button class="btn-dj btn-nextq" id="bNext" onclick="nextQ()" disabled>Suivant →</button>
+  </div>
+</div>
+
+<!-- OVERLAY RÉPONSE -->
+<div class="overlay" id="ovReveal" onclick="closeReveal()">
+  <div class="ov-box" onclick="event.stopPropagation()">
+    <div class="ov-lbl" id="ovLbl" style="color:var(--correct)">✓ Bonne réponse</div>
+    <div class="ov-film" id="ovFilm">—</div>
+    <div class="ov-year" id="ovYear"></div>
+    <div class="ov-tap">Tap pour continuer</div>
+  </div>
+</div>
+
+<!-- OVERLAY CONFIRM -->
+<div class="overlay" id="ovC">
+  <div class="ov-box">
+    <div class="ov-msg" id="ovMsg"></div>
+    <div class="ov-btns"><button class="btn-no" onclick="closeConfirm()">Non</button><button class="btn-yes" onclick="confirmYes()">Oui</button></div>
+  </div>
+</div>
+
+<!-- RÉSULTAT -->
+<div id="sResult">
+  <div class="rcrown" id="rcrown">🏆</div>
+  <div class="rtitle" id="rtitle">Résultats</div>
+  <div class="rsub" id="rsub"></div>
+  <div class="rscores" id="rscores"></div>
+  <div class="rbtns">
+    <button class="btn-r btn-rhome" onclick="goHome()">🏠 Retour accueil</button>
+    <button class="btn-r btn-rreplay" onclick="startGame()">🔄 Rejouer</button>
+  </div>
+</div>
+
+<canvas id="confettiCanvas"></canvas>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+//  CONFIGURATION COULEURS & NOMS
+// ═══════════════════════════════════════
+const TEAM_COLORS = [
+  {main:"#1A4A8A",lt:"#D8E8F8",bd:"#8AAED8",text:"white"},   // Bleu
+  {main:"#5C3010",lt:"#F0E0C8",bd:"#C8905A",text:"white"},   // Marron
+  {main:"#8A1A1A",lt:"#F8D8D8",bd:"#D88A8A",text:"white"},   // Rouge
+  {main:"#1A1A1A",lt:"#D0D0D0",bd:"#606060",text:"white"},   // Noir
+];
+
+// ═══════════════════════════════════════
+//  QUESTIONS
+// ═══════════════════════════════════════
+const Q = [
+  // WESTERN & CULTURE COWBOY
+  {cat:"🐎 Western",q:"Dans quelle région des États-Unis la musique country s’est-elle principalement développée ?",ans:"Sud des États-Unis et Appalaches",wrong:["Nouvelle-Angleterre","Californie","Alaska"],info:"La country née dans les Appalaches et le Sud, avec des influences folk, gospel et blues."},
+  {cat:"🐎 Western",q:"Quel célèbre ranch du Texas s’étend sur environ 825 000 acres ?",ans:"King Ranch",wrong:["Yellowstone Ranch","Ponderosa Ranch","Four Sixes Ranch"],info:"Le King Ranch couvre environ 825 000 acres dans le sud du Texas."},
+  {cat:"🐎 Western",q:"Comment appelle-t-on en espagnol le cow-boy traditionnel à l’origine de la culture cowboy américaine ?",ans:"Vaquero",wrong:["Ranchero","Caballero Negro","Torero"],info:"Les techniques des cow-boys américains proviennent de la culture des vaqueros espagnols et mexicains."},
+  {cat:"🐎 Western",q:"Quelle race de cheval est particulièrement emblématique des ranchs et du travail du bétail aux États-Unis ?",ans:"American Quarter Horse",wrong:["Pur-sang arabe","Frison","Shire"],info:"L’American Quarter Horse est la race la plus populaire des ranchs américains."},
+  {cat:"🐎 Western",q:"Que signifie littéralement le mot espagnol « vaquero » ?",ans:"Cow-boy",wrong:["Cavalier militaire","Éleveur de chevaux","Shérif"],info:"Vaquero = « gardien de vaches » en espagnol, l’équivalent du cow-boy."},
+  {cat:"🐎 Western",q:"De quel pays proviennent les racines historiques de nombreuses traditions du cow-boy américain ?",ans:"Espagne et Mexique",wrong:["Canada","Allemagne","Australie"],info:"Les Espagnols ont introduit chevaux et élevage bovin dans les Amériques."},
+  {cat:"🐎 Western",q:"Quelle ville du Tennessee est surnommée « Music City », grand centre de la country ?",ans:"Nashville",wrong:["Memphis","Knoxville","Chattanooga"],info:"Nashville est la capitale mondiale de la musique country."},
+  {cat:"🐎 Western",q:"Quel instrument à cordes est historiquement très associé aux premières musiques country ?",ans:"Violon / Fiddle",wrong:["Saxophone","Harpe","Clavecin"],info:"Le fiddle a occupé une place majeure dans les traditions rurales et les débuts de la country."},
+  {cat:"🐎 Western",q:"Comment appelle-t-on la compétition traditionnelle comprenant monte de taureau et lasso ?",ans:"Rodéo",wrong:["Derby","Round-up","Stampede"],info:"Le rodéo est né des compétitions entre cowboys sur les grands ranchs américains."},
+  {cat:"🐎 Western",q:"Quel État américain est souvent appelé « The Lone Star State » ?",ans:"Texas",wrong:["Oklahoma","Montana","Wyoming"],info:"Le Texas fut une république indépendante avant d’intégrer les États-Unis en 1845."},
+
+  // FILMS WESTERN
+  {cat:"🎬 Film Western",q:"Dans quel film Clint Eastwood joue-t-il « l’Homme sans nom » ?",ans:"Et pour quelques dollars de plus",wrong:["Le Bon, la Brute et le Truand","Impitoyable","Pale Rider"],info:"Clint Eastwood incarne l’« Homme sans nom » dans la trilogie des dollars de Leone."},
+  {cat:"🎬 Film Western",q:"Répliquer « Go ahead, make my day » — dans quel film cette célèbre réplique de Clint Eastwood est-elle prononcée ?",ans:"L’Inspecteur Harry revient",wrong:["Impitoyable","L’Homme des Hautes Plaines","Bronco Billy"],info:"C’est dans Sudden Impact (1983) que Clint Eastwood prononce cette réplique culte."},
+  {cat:"🎬 Film Western",q:"« Il faut tirer en premier, viser ensuite » — dans quel univers western cette logique de survie est-elle emblématique ?",ans:"Le Bon, la Brute et le Truand",wrong:["Django Unchained","True Grit","Tombstone"],info:"Le film de Sergio Leone (1966) illustre parfaitement cette loi du plus rapide."},
+  {cat:"🎬 Film Western",q:"Quel acteur joue Django dans « Django Unchained » de Quentin Tarantino ?",ans:"Jamie Foxx",wrong:["Will Smith","Denzel Washington","Idris Elba"],info:"Jamie Foxx campe Django, un ancien esclave devenu chasseur de primes."},
+  {cat:"🎬 Film Western",q:"Dans « Tombstone », quelle célèbre fusillade historique est représentée ?",ans:"Fusillade d’OK Corral",wrong:["Bataille de Little Bighorn","Fusillade de Deadwood","Siège de l’Alamo"],info:"La fusillade d’OK Corral (1881) opposa les frères Earp et Doc Holliday aux Clanton."},
+
+  // MUSIC COUNTRY
+  {cat:"🎵 Country",q:"Quel surnom porte Johnny Cash, légende de la country ?",ans:"L’Homme en noir",wrong:["Le Vagabond","Le Roi du Sud","Le Desperado"],info:"Johnny Cash portait toujours du noir sur scène, d’où son surnom The Man in Black."},
+  {cat:"🎵 Country",q:"Quelle artiste country est surnommée « The Queen of Country » ?",ans:"Dolly Parton",wrong:["Tammy Wynette","Loretta Lynn","Shania Twain"],info:"Dolly Parton est considérée comme la reine incontestée de la musique country."},
+  {cat:"🎵 Country",q:"Quelle chanson emblématique de Dolly Parton a été reprise par Whitney Houston ?",ans:"I Will Always Love You",wrong:["Jolene","9 to 5","Coat of Many Colors"],info:"Dolly Parton a composé I Will Always Love You en 1973, repris par Whitney Houston en 1992."},
+  {cat:"🎵 Country",q:"Quel groupe country-rock a sorti « Hotel California » en 1977 ?",ans:"Eagles",wrong:["Lynyrd Skynyrd","Creedence Clearwater Revival","Fleetwood Mac"],info:"Les Eagles ont sorti Hotel California en 1977, l’un des albums les plus vendus de l’histoire."},
+  {cat:"🎵 Country",q:"Quel artiste est surnommé « King of Country » et a sorti « Friends in Low Places » ?",ans:"Garth Brooks",wrong:["Kenny Rogers","Alan Jackson","George Strait"],info:"Garth Brooks est l’un des artistes country les plus vendus de tous les temps."},
+
+  // HISTOIRE DE L’OUEST
+  {cat:"🇺🇸 Histoire",q:"Comment surnommait-on la période d’exploration et de colonisation de l’Ouest américain au XIXe siècle ?",ans:"La Ruée vers l’Ouest",wrong:["La Conquista","Le Grand Voyage","L’Expansion du Nord"],info:"La Manifest Destiny poussait les Américains à coloniser l’Ouest au XIXe siècle."},
+  {cat:"🇺🇸 Histoire",q:"En quelle année a eu lieu la grande ruée vers l’or en Californie ?",ans:"1848",wrong:["1835","1862","1876"],info:"La découverte d’or à Sutter’s Mill en janvier 1848 déclencha la ruée vers l’or."},
+  {cat:"🇺🇸 Histoire",q:"Quel célèbre outlaw américain fut abattu en 1881 par le shérif Pat Garrett ?",ans:"Billy the Kid",wrong:["Jesse James","Butch Cassidy","Cole Younger"],info:"Billy the Kid (William Bonney) fut tué à 21 ans par Pat Garrett au Nouveau-Mexique."},
+  {cat:"🇺🇸 Histoire",q:"Quel célèbre marshal des plaines était surnommé « Wild Bill » ?",ans:"James Butler Hickok",wrong:["Wyatt Earp","Doc Holliday","Bat Masterson"],info:"Wild Bill Hickok était un des plus fameux marshals et tireurs de l’Ouest sauvage."},
+  {cat:"🇺🇸 Histoire",q:"Quel peuple amérindien était surnommé « les seigneurs des plaines » pour leur maitrise du cheval ?",ans:"Les Comanches",wrong:["Les Sioux","Les Apaches","Les Navajos"],info:"Les Comanches étaient considérés comme les meilleurs cavaliers des grandes plaines."},
+
+  // GÉOGRAPHIE WESTERN
+  {cat:"🌍 Géographie",q:"Quel parc national du Wyoming est connu pour ses geysers dont le fameux Old Faithful ?",ans:"Yellowstone",wrong:["Grand Teton","Bryce Canyon","Zion"],info:"Yellowstone, premier parc national du monde (1872), abrite plus de 500 geysers actifs."},
+  {cat:"🌍 Géographie",q:"Dans quel État se trouve Monument Valley, décor icônique des westerns ?",ans:"Utah / Arizona",wrong:["Nevada","Colorado","Nouveau-Mexique"],info:"Monument Valley est à cheval sur l’Utah et l’Arizona, rendue célèbre par John Ford."},
+  {cat:"🌍 Géographie",q:"Quel fleuve marque en partie la frontière entre les États-Unis et le Mexique ?",ans:"Rio Grande",wrong:["Colorado River","Arkansas River","Missouri River"],info:"Le Rio Grande s’étend sur 3 000 km et forme une grande partie de la frontière USA-Mexique."},
+  {cat:"🌍 Géographie",q:"Quelle ville est connue comme la capitale du rodéo au Texas ?",ans:"Fort Worth",wrong:["Dallas","Houston","San Antonio"],info:"Fort Worth est surnommée « Cowtown », capitale du rodéo et de la culture cow-boy au Texas."},
+
+  // POP CULTURE WESTERN
+  {cat:"📺 Pop Culture",q:"Dans quelle série TV se déroule l’histoire de la famille Dutton dans le ranch du Montana ?",ans:"Yellowstone",wrong:["Longmire","Deadwood","Hell on Wheels"],info:"Yellowstone (2018) avec Kevin Costner dépeint les batailles d’un ranch du Montana."},
+  {cat:"📺 Pop Culture",q:"Quel personnage du Mandalorian est devenu une icône internet sous le nom de « Baby Yoda » ?",ans:"Grogu",wrong:["Din Djarin","Cara Dune","Moff Gideon"],info:"Grogu, alias Baby Yoda, est apparu dans The Mandalorian (2019) sur Disney+."},
+  {cat:"📺 Pop Culture",q:"Dans quelle série HBO se déroule l’histoire d’une ville frontalière de l’Ouest sauvage américain ?",ans:"Deadwood",wrong:["Longmire","Justified","Hell on Wheels"],info:"Deadwood (2004-2006) retrace l’histoire vraie de la ville minère du Dakota du Sud."},
+  {cat:"📺 Pop Culture",q:"Quel jeu vidéo western open-world de Rockstar Games est sorti en 2018 ?",ans:"Red Dead Redemption 2",wrong:["Call of Juarez","Gun","Desperados III"],info:"Red Dead Redemption 2 est considéré comme l’un des meilleurs jeux jamais créés."},
+  {cat:"📺 Pop Culture",q:"Quelle célèbre danse de line dance est souvent associée à la culture country ?",ans:"Cotton-Eye Joe",wrong:["Macarena","Boot Scootin’ Boogie","Tush Push"],info:"Cotton-Eye Joe est l’une des danses country les plus populaires dans le monde entier."},
+
+  // BONUS WESTERN INSOLITE
+  {cat:"💡 Bonus",q:"Quel animal sauvage américain a quasiment disparu au XIXe siècle à cause de la chasse intensive ?",ans:"Le bison d’Amérique",wrong:["Le grizzly","Le loup gris","Le puma"],info:"On est passé de 60 millions de bisons à moins de 1 000 à la fin du XIXe siècle."},
+  {cat:"💡 Bonus",q:"Quel type de chapeau est le symbole le plus icônique du cow-boy américain ?",ans:"Stetson",wrong:["Fedora","Borsalino","Homburg"],info:"Le chapeau Stetson (1865) est devenu le symbole mondial du cow-boy américain."},
+  {cat:"💡 Bonus",q:"Comment appelle-t-on l’enclos à bétail utilisé lors des rodéos ?",ans:"Chute",wrong:["Corral","Box","Lasso"],info:"La chute est la cage étroite où le taureau ou le cheval est enfermé avant de sortir en arène."},
+  {cat:"💡 Bonus",q:"Quel surnom donnait-on aux shérifs et marshals qui faisaient régner la loi dans les villes de l’Ouest ?",ans:"Lawman",wrong:["Ranger","Bounty Hunter","Deputy"],info:"Le terme lawman désigne génériquement les représentants de la loi dans l’Ouest américain."},
+  {cat:"💡 Bonus",q:"Quelle boisson était la plus consommée dans les saloons de l’Ouest américain ?",ans:"Whisky",wrong:["Bière","Tequila","Rhum"],info:"Le whisky était la boisson de prédilection des cowboys, souvent cut avec de l’eau."},
+];
+
+const TIEBREAK = [
+  {cat:"⚔️ Départage",q:"En quelle année le Texas a-t-il intégré les États-Unis après avoir été une république indépendante ?",ans:"1845",wrong:["1836","1861","1898"],info:"Le Texas fut indépendant de 1836 à 1845 avant d’étre annexé par les États-Unis."},
+  {cat:"⚔️ Départage",q:"Quel célèbre hors-la-loi forma le gang connu sous le nom de « Hole-in-the-Wall Gang » ?",ans:"Butch Cassidy",wrong:["Jesse James","Billy the Kid","Cole Younger"],info:"Butch Cassidy et le Sundance Kid menaient le Wild Bunch, alias le Hole-in-the-Wall Gang."},
+  {cat:"⚔️ Départage",q:"Quel événement de 1876 vit la défaite du général Custer face aux Sioux et Cheyennes ?",ans:"Bataille de Little Bighorn",wrong:["Siège d’Adobe Walls","Massacre de Wounded Knee","Fusillade d’OK Corral"],info:"Little Bighorn (1876) fut la plus grande victoire militaire amérindienne contre l’armée américaine."},
+];
+
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+const TIMER = 15, CIRC = 2 * Math.PI * 25;
+const NT = 4; // nombre d’équipes
+let names = ["Équipe Bleue","Équipe Marron","Équipe Rouge","Équipe Noire"];
+let order = [], cur = 0, scores = [0,0,0,0], answers = [];
+let tInt = null, tLeft = 0, optOrder = [], answered = false;
+let tbMode = false, tbIdx = 0, confirmCb = null;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function curTeam(){return cur % NT;}
+function tn(t){return names[t];}
+function tc(t){return TEAM_COLORS[t];}
+
+// ═══════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════
+function goHome(){
+  stopTimer();
+  ["sGame","sResult","sIntro"].forEach(id=>document.getElementById(id).style.display="none");
+  document.getElementById("sHome").style.display="flex";
+}
+
+function startGame(){
+  for(let i=0;i<NT;i++) names[i]=document.getElementById("n"+i).value.trim()||names[i];
+  order=shuffle([...Array(Q.length).keys()]);
+  cur=0;scores=[0,0,0,0];answers=[];tbMode=false;tbIdx=0;
+
+  // Build intro badges
+  const b=document.getElementById("teamBadges");b.innerHTML="";
+  names.forEach((n,i)=>{
+    const c=tc(i);
+    const d=document.createElement("div");d.className="tbadge";
+    d.style.cssText="background:"+c.lt+";border:2px solid "+c.bd+";";
+    d.innerHTML="<div class=\"tbadge-name\" style=\"color:"+c.main+"\">"+n+"</div><div class=\"tbadge-pts\" style=\"color:"+c.main+"\">0</div>";
+    b.appendChild(d);
+  });
+
+  document.getElementById("sHome").style.display="none";
+  document.getElementById("sIntro").style.display="flex";
+}
+
+function launchGame(){
+  document.getElementById("sIntro").style.display="none";
+  document.getElementById("sGame").style.display="flex";
+  buildScoreboard();
+  requestFSAuto();
+  renderQ();
+}
+
+// ═══════════════════════════════════════
+//  SCOREBOARD
+// ═══════════════════════════════════════
+function buildScoreboard(){
+  const sb=document.getElementById("scoreboard4");sb.innerHTML="";
+  names.forEach((n,i)=>{
+    const c=tc(i);
+    const d=document.createElement("div");d.className="sb4";d.id="sb"+i;
+    d.style.cssText="border-color:"+c.bd+";";
+    d.innerHTML="<div class=\"sb4-name\" style=\"color:"+c.main+"\">"+n+"</div><div class=\"sb4-pts\" id=\"sp"+i+"\" style=\"color:"+c.main+"\">0</div>";
+    sb.appendChild(d);
+  });
+  buildRmBtns();
+}
+
+function buildRmBtns(){
+  const rb=document.getElementById("rmBtns");rb.innerHTML="";
+  names.forEach((n,i)=>{
+    const c=tc(i);
+    const btn=document.createElement("button");btn.className="btn-dj";
+    btn.style.cssText="background:"+c.lt+";color:"+c.main+";border:1.5px solid "+c.bd+";";
+    btn.textContent="−1 "+n.split(" ")[1]||n;
+    btn.onclick=()=>askRemove(i);
+    rb.appendChild(btn);
+  });
+}
+
+function updateScores(){
+  names.forEach((n,i)=>{
+    document.getElementById("sp"+i).textContent=scores[i];
+    const sb=document.getElementById("sb"+i);
+    sb.className="sb4"+(i===curTeam()?" active":"");
+    if(i===curTeam()) sb.style.borderColor=tc(i).main;
+    else sb.style.borderColor=tc(i).bd;
+  });
+}
+
+// ═══════════════════════════════════════
+//  RENDER QUESTION
+// ═══════════════════════════════════════
+function renderQ(){
+  stopTimer();answered=false;
+  const q=tbMode?TIEBREAK[tbIdx]:Q[order[cur]];
+  const total=Q.length;
+  const t=curTeam();
+
+  updateScores();
+  document.getElementById("turnInfo").textContent="Tour de "+tn(t);
+  document.getElementById("turnInfo").style.color=tc(t).main;
+
+  document.getElementById("progFill").style.width=(cur/total*100)+"%";
+  document.getElementById("progLbl").textContent=(cur+1)+" / "+total;
+
+  document.getElementById("qNum").textContent=tbMode?"Départage "+(tbIdx+1):"Question "+(cur+1);
+  document.getElementById("qCat").textContent=q.cat;
+  document.getElementById("qText").textContent=q.q;
+
+  const card=document.getElementById("qCard");
+  card.style.animation="none";void card.offsetWidth;card.style.animation="";
+
+  optOrder=shuffle([q.ans,...q.wrong]);
+  const grid=document.getElementById("optsGrid");grid.innerHTML="";
+  ["A","B","C","D"].forEach((l,i)=>{
+    const d=document.createElement("div");d.className="opt";d.id="opt"+i;
+    d.innerHTML="<span class=\"opt-l\">"+l+"</span><span>"+optOrder[i]+"</span>";
+    const ans=q.ans,info=q.info||"";
+    d.addEventListener("click",()=>pickOpt(i,optOrder[i],ans,info));
+    grid.appendChild(d);
+  });
+
+  document.getElementById("feedback").className="feedback";
+  document.getElementById("bNext").disabled=true;
+  const bn=document.getElementById("bNext");
+  bn.className=(!tbMode&&cur===total-1)?"btn-dj btn-nextq fin":"btn-dj btn-nextq";
+  bn.textContent=(!tbMode&&cur===total-1)?"Résultats 🏆":"Suivant →";
+
+  soundClap();startTimer();
+}
+
+// ═══════════════════════════════════════
+//  PICK OPTION
+// ═══════════════════════════════════════
+function pickOpt(idx,chosen,correct,info){
+  if(answered)return;answered=true;stopTimer();
+  const t=curTeam();
+  const isRight=chosen===correct;
+
+  optOrder.forEach((o,i)=>{
+    const el=document.getElementById("opt"+i);if(!el)return;
+    el.classList.add("disabled");
+    if(o===correct)el.classList.add("correct");
+    else if(i===idx&&!isRight)el.classList.add("wrong");
+    else el.classList.add("timeout");
+  });
+
+  if(isRight){scores[t]++;document.getElementById("sp"+t).textContent=scores[t];animScore(t);soundCorrect();}
+  else soundWrong();
+
+  const fb=document.getElementById("feedback");
+  if(isRight){fb.textContent="✓ Bravo "+tn(t)+" ! +1 point 🤠 "+info;fb.className="feedback show ok";}
+  else{fb.textContent="✗ C’était : "+correct+" — "+info;fb.className="feedback show ko";}
+
+  document.getElementById("ovLbl").textContent=isRight?"✓ Bonne réponse !":"✗ La bonne réponse était…";
+  document.getElementById("ovLbl").style.color=isRight?"var(--correct)":"var(--wrong)";
+  document.getElementById("ovFilm").textContent=correct;
+  document.getElementById("ovYear").textContent=info;
+  document.getElementById("ovReveal").classList.add("show");
+
+  answers.push({team:t,correct,result:isRight?"ok":"ko"});
+  document.getElementById("bNext").disabled=false;
+}
+
+function closeReveal(){document.getElementById("ovReveal").classList.remove("show");}
+
+// ═══════════════════════════════════════
+//  NEXT QUESTION
+// ═══════════════════════════════════════
+function nextQ(){
+  closeReveal();
+  if(tbMode){
+    tbIdx++;
+    // Check if a team is now ahead
+    const max=Math.max(...scores);
+    const winners=scores.filter(s=>s===max).length;
+    if(winners===1||tbIdx>=TIEBREAK.length){showResult();return;}
+    answered=false;renderQ();return;
+  }
+  cur++;
+  if(cur>=Q.length){
+    const max=Math.max(...scores);
+    const tied=scores.filter(s=>s===max).length;
+    if(tied>1){tbMode=true;tbIdx=0;answered=false;renderQ();}
+    else showResult();
+  } else renderQ();
+}
+
+// ═══════════════════════════════════════
+//  TIMER
+// ═══════════════════════════════════════
+function startTimer(){tLeft=TIMER;updateChrono(tLeft);tInt=setInterval(()=>{tLeft--;updateChrono(tLeft);if(tLeft<=0){clearInterval(tInt);handleTimeout();}},1000);}
+function stopTimer(){clearInterval(tInt);tInt=null;}
+function updateChrono(t){
+  const arc=document.getElementById("cArc"),num=document.getElementById("cNum");
+  arc.style.strokeDashoffset=CIRC*(1-t/TIMER);num.textContent=t;
+  const u=t<=5;num.className="c-num"+(u?" urgent":"");arc.className="c-arc"+(u?" urgent":"");
+  if(u)soundTick(t);
+}
+function handleTimeout(){
+  if(answered)return;
+  document.getElementById("feedback").textContent="⏱ Temps écoulé ! Le DJ révèle la réponse…";
+  document.getElementById("feedback").className="feedback show to";
+  document.getElementById("bNext").disabled=false;
+}
+
+// ═══════════════════════════════════════
+//  DJ CONTROLS
+// ═══════════════════════════════════════
+function askRemove(t){showConfirm("Retirer 1 point à "+tn(t)+" ?",()=>{if(scores[t]>0){scores[t]--;document.getElementById("sp"+t).textContent=scores[t];}});}
+function askHome(){showConfirm("Quitter la partie en cours ?",()=>goHome());}
+function showConfirm(msg,cb){confirmCb=cb;document.getElementById("ovMsg").textContent=msg;document.getElementById("ovC").classList.add("show");}
+function confirmYes(){if(confirmCb)confirmCb();closeConfirm();}
+function closeConfirm(){document.getElementById("ovC").classList.remove("show");confirmCb=null;}
+
+// ═══════════════════════════════════════
+//  ANIMATION SCORE
+// ═══════════════════════════════════════
+function animScore(t){
+  const el=document.getElementById("sp"+t);
+  el.classList.remove("score-pop");void el.offsetWidth;el.classList.add("score-pop");
+  setTimeout(()=>el.classList.remove("score-pop"),500);
+}
+
+// ═══════════════════════════════════════
+//  RÉSULTAT FINAL
+// ═══════════════════════════════════════
+function showResult(){
+  stopTimer();
+  document.getElementById("sGame").style.display="none";
+  document.getElementById("sResult").style.display="flex";
+
+  const max=Math.max(...scores);
+  const winners=names.filter((n,i)=>scores[i]===max);
+
+  let crown="🏆",title,sub;
+  if(winners.length===1){
+    title="Victoire de "+winners[0]+" !";
+    sub=winners[0]+" remporte le quiz avec "+max+" points. Yeehaw ! 🤠🥂";
+    soundVictory();launchConfetti();
+  } else {
+    crown="🤝";title="Égalité !";
+    sub="Match nul entre "+winners.join(", ")+" avec "+max+" points chacun ! 🍾";
+  }
+  document.getElementById("rcrown").textContent=crown;
+  document.getElementById("rtitle").textContent=title;
+  document.getElementById("rsub").textContent=sub;
+
+  const rs=document.getElementById("rscores");rs.innerHTML="";
+  // Trier par score décroissant
+  const sorted=[0,1,2,3].sort((a,b)=>scores[b]-scores[a]);
+  sorted.forEach(i=>{
+    const c=tc(i);const isWin=scores[i]===max;
+    const d=document.createElement("div");d.className="rteam"+(isWin?" winner":"");
+    d.style.cssText="border-color:"+(isWin?"var(--gold)":c.bd)+";";
+    d.innerHTML="<div class=\"rname\" style=\"color:"+c.main+"\">"+tn(i)+"</div>"+
+      "<div class=\"rpts"+(isWin?" win":"\")\" style=\""+(!isWin?"color:"+c.main:"")+"\">"+scores[i]+"</div>"+
+      "<div class=\"rptssub\">points</div>";
+    rs.appendChild(d);
+  });
+
+  setTimeout(()=>goHome(),15000);
+}
+
+// ═══════════════════════════════════════
+//  SONS
+// ═══════════════════════════════════════
+let AC=null;
+function getAC(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}return AC;}
+function unlockAudio(){const ac=getAC();if(ac&&ac.state==="suspended")ac.resume();}
+document.addEventListener("touchstart",unlockAudio,{once:true});
+document.addEventListener("click",unlockAudio,{once:true});
+function beep(f,d,v,t,w){const ac=getAC();if(!ac)return;v=v||.3;t=t||"sine";w=w!=null?w:ac.currentTime;const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type=t;o.frequency.setValueAtTime(f,w);g.gain.setValueAtTime(v,w);g.gain.exponentialRampToValueAtTime(.001,w+d);o.start(w);o.stop(w+d+.01);}
+function noise(d,v,w,ac){const buf=ac.createBuffer(1,Math.floor(ac.sampleRate*d),ac.sampleRate);const da=buf.getChannelData(0);for(let i=0;i<da.length;i++)da[i]=(Math.random()*2-1)*Math.pow(1-i/da.length,1.2);const s=ac.createBufferSource(),g=ac.createGain();g.gain.setValueAtTime(v,w);s.buffer=buf;s.connect(g);g.connect(ac.destination);s.start(w);}
+function soundClap(){unlockAudio();const ac=getAC();if(!ac)return;noise(.05,.5,ac.currentTime,ac);beep(900,.04,.18,"square",ac.currentTime);}
+function soundTick(t){unlockAudio();beep(t<=2?1100:750,.07,t<=2?.4:.22,"square");}
+function soundCorrect(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;[392,523,659,784,1047,1319].forEach((f,i)=>beep(f,.22,.3+i*.08,"sine",n+i*.08));beep(196,.4,.35,"sine",n);for(let r=0;r<12;r++)noise(.07,.32,n+.1+r*.055,ac);}
+function soundWrong(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;beep(180,.18,.7,"sawtooth",n);beep(140,.18,.65,"sawtooth",n+.17);beep(110,.3,.6,"sawtooth",n+.33);}
+function soundVictory(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;const m=[523,523,523,415,622,523,415,622,523,784,1047],d=[.12,.12,.12,.09,.35,.12,.09,.35,.12,.2,.6];let t=n;m.forEach((f,i)=>{beep(f,d[i],.3+i*.04,"sine",t);t+=d[i]+.02;});for(let r=0;r<18;r++)noise(.07,.35,n+.2+r*.06,ac);}
+
+// ═══════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════
+function launchConfetti(){const c=document.getElementById("confettiCanvas");if(!c)return;const ctx=c.getContext("2d");c.width=window.innerWidth;c.height=window.innerHeight;const cols=["#C9A96E","#1A4A8A","#5C3010","#8A1A1A","#2A2A2A","#F5C518","#50C878","#E8D5B0"];const ps=[];for(let i=0;i<220;i++)ps.push({x:Math.random()*c.width,y:-20-Math.random()*200,w:8+Math.random()*10,h:4+Math.random()*6,color:cols[Math.floor(Math.random()*cols.length)],angle:Math.random()*Math.PI*2,spin:(.5-Math.random())*.15,vx:(.5-Math.random())*3,vy:2+Math.random()*4,alpha:1});let frame=0;function draw(){ctx.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.angle+=p.spin;if(frame>120)p.alpha=Math.max(0,p.alpha-.012);ctx.save();ctx.globalAlpha=p.alpha;ctx.translate(p.x,p.y);ctx.rotate(p.angle);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});frame++;if(frame<220)requestAnimationFrame(draw);else ctx.clearRect(0,0,c.width,c.height);}draw();}
+
+// ═══════════════════════════════════════
+//  FULLSCREEN
+// ═══════════════════════════════════════
+function toggleFS(){const el=document.documentElement;if(!document.fullscreenElement&&!document.webkitFullscreenElement){const r=el.requestFullscreen||el.webkitRequestFullscreen||el.mozRequestFullScreen;if(r)r.call(el);document.getElementById("btnFS").textContent="✕ Quitter plein écran";}else{const e=document.exitFullscreen||document.webkitExitFullscreen;if(e)e.call(document);document.getElementById("btnFS").textContent="⛶ Plein écran";}}
+function requestFSAuto(){const el=document.documentElement;const r=el.requestFullscreen||el.webkitRequestFullscreen||el.mozRequestFullScreen;if(r&&!document.fullscreenElement&&!document.webkitFullscreenElement)r.call(el).catch(()=>{});}
+["fullscreenchange","webkitfullscreenchange"].forEach(ev=>{document.addEventListener(ev,()=>{const b=document.getElementById("btnFS");if(b)b.textContent=(document.fullscreenElement||document.webkitFullscreenElement)?"✕ Quitter plein écran":"⛶ Plein écran";});});
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+document.getElementById("sHome").style.display="flex";
+</script>
+</body>
+</html>
