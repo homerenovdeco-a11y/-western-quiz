@@ -509,8 +509,8 @@ function renderQ(){
 
   updateScores();
 
-  document.getElementById("progFill").style.width=(cur/total*100)+"%";
-  document.getElementById("progLbl").textContent=(cur+1)+" / "+total;
+  document.getElementById("progFill").style.width=(tbMode?100:(cur/total*100))+"%";
+  document.getElementById("progLbl").textContent=tbMode?("Départage "+(tbIdx+1)+" / "+TIEBREAK.length):((cur+1)+" / "+total);
   document.getElementById("turnInfo").textContent=tbMode?"Départage":"Toutes les équipes";
 
   document.getElementById("qNum").textContent=tbMode?"Départage "+(tbIdx+1):"Question "+(cur+1);
