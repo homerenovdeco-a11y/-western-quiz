@@ -18,18 +18,25 @@
   --t3:#1A1A1A;--t3-lt:#E0E0E0;--t3-bd:#909090;   /* Noir */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;min-height:100vh;background:var(--ivory);color:var(--ink);font-family:"DM Sans",sans-serif;}
+html,body{width:100%;min-height:100vh;background:var(--parch);color:var(--ink);font-family:"DM Sans",sans-serif;}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 15% 15%,rgba(201,169,110,.13) 0%,transparent 55%),
-             radial-gradient(ellipse at 85% 85%,rgba(92,48,16,.08) 0%,transparent 55%);}
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(139,96,20,.04) 49px),
+    repeating-linear-gradient(90deg,transparent,transparent 48px,rgba(139,96,20,.03) 49px),
+    radial-gradient(ellipse at 10% 10%,rgba(180,120,40,.18) 0%,transparent 60%),
+    radial-gradient(ellipse at 90% 90%,rgba(100,50,10,.14) 0%,transparent 60%),
+    radial-gradient(ellipse at 50% 50%,rgba(200,160,80,.08) 0%,transparent 70%);
+}
 .app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;}
+.parch-card{background:var(--parch);border:2px solid var(--gold-lt);border-radius:4px;
+  box-shadow:2px 2px 8px rgba(60,20,0,.2),inset 0 0 30px rgba(180,120,40,.06);}
 
 /* ══ ACCUEIL ══ */
 #sHome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;min-height:100vh;}
 .clap{font-size:4rem;margin-bottom:.8rem;animation:float 3s ease-in-out infinite;}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
-.htitle{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,9vw,5rem);font-weight:700;line-height:1.05;color:var(--ink);margin-bottom:.4rem;}
-.htitle em{font-style:italic;color:var(--gold);}
+.htitle{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,9vw,5rem);font-weight:700;line-height:1.05;color:var(--sepia);margin-bottom:.4rem;text-shadow:1px 1px 0 rgba(180,120,40,.3);letter-spacing:.02em;}
+.htitle em{font-style:italic;color:var(--wood);}
 .hsub{font-size:.95rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.8rem;}
 .divider{display:flex;align-items:center;gap:.8rem;margin:0 auto 1.6rem;max-width:320px;width:100%;}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--gold-lt);}
@@ -42,9 +49,9 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .tf input{background:white;border:1.5px solid var(--border);border-radius:8px;padding:.6rem .9rem;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s;}
 .tf input:focus{border-color:var(--gold);}
 
-.rules{background:white;border:1px solid var(--border);border-radius:12px;padding:.85rem 1.2rem;font-size:.82rem;color:var(--muted);line-height:1.9;max-width:460px;text-align:left;margin-bottom:1.6rem;}
+.rules{background:var(--ivory-2);border:2px solid var(--parch-dark);border-radius:4px;padding:.85rem 1.2rem;font-size:.82rem;color:var(--sepia);line-height:1.9;max-width:460px;text-align:left;margin-bottom:1.6rem;box-shadow:inset 0 0 12px rgba(180,120,40,.08);}
 .rules strong{color:var(--ink);}
-.btn-launch{padding:1rem 3rem;background:var(--gold);color:white;border:none;border-radius:12px;font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(201,169,110,.35);transition:transform .15s;margin-bottom:.8rem;}
+.btn-launch{padding:1rem 3rem;background:var(--wood);color:var(--parch);border:3px solid var(--gold);border-radius:4px;font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(60,20,0,.3),inset 0 1px 0 rgba(255,220,120,.2);transition:transform .15s;margin-bottom:.8rem;letter-spacing:.04em;text-shadow:1px 1px 2px rgba(0,0,0,.3);}
 .btn-launch:hover{transform:scale(1.04);}
 .btn-fs{padding:.5rem 1.3rem;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.8rem;cursor:pointer;}
 .btn-fs:hover{border-color:var(--gold);color:var(--gold);}
@@ -59,7 +66,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .tbadge-pts{font-family:"Playfair Display",serif;font-size:1.8rem;font-weight:700;line-height:1;}
 .intro-rules{background:white;border:1px solid var(--border);border-radius:12px;padding:.85rem 1.2rem;font-size:.82rem;color:var(--muted);line-height:1.9;max-width:440px;text-align:left;margin-bottom:1.8rem;}
 .intro-rules strong{color:var(--ink);}
-.btn-go{padding:1rem 3rem;background:var(--gold);color:white;border:none;border-radius:12px;font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(201,169,110,.35);transition:transform .15s;}
+.btn-go{padding:1rem 3rem;background:var(--wood);color:var(--parch);border:3px solid var(--gold);border-radius:4px;font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(60,20,0,.3);transition:transform .15s;letter-spacing:.04em;text-shadow:1px 1px 2px rgba(0,0,0,.3);}
 .btn-go:hover{transform:scale(1.04);}
 
 /* ══ JEU ══ */
@@ -67,10 +74,11 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
 /* Scores 4 équipes */
 .scoreboard4{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;}
-.sb4{display:flex;flex-direction:column;align-items:center;padding:.5rem .4rem;border-radius:10px;border:2px solid var(--border);background:white;transition:border-color .3s,background .3s,transform .15s;}
+.sb4{display:flex;flex-direction:column;align-items:center;padding:.5rem .4rem;border-radius:4px;border:2px solid var(--gold-lt);background:var(--parch);transition:border-color .3s,background .3s,transform .15s;box-shadow:1px 1px 4px rgba(60,20,0,.15);}
+.sb4.active{transform:scale(1.05);}
 .sb4-name{font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.1rem;}
 .sb4-pts{font-family:"Playfair Display",serif;font-size:2rem;font-weight:700;line-height:1;}
-@keyframes scorePop{0%{transform:scale(1)}30%{transform:scale(1.45)}60%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes scorePop{0%{transform:scale(1.05)}30%{transform:scale(1.5)}60%{transform:scale(.92)}100%{transform:scale(1.05)}}
 .score-pop{animation:scorePop .5s cubic-bezier(.34,1.56,.64,1);}
 
 /* Chrono */
@@ -88,51 +96,38 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .turn-info{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.18rem .7rem;border-radius:2rem;border:1.5px solid var(--gold-lt);color:var(--gold);background:#FFFBF0;}
 
 /* Carte question */
-.q-card{background:white;border:1px solid var(--border);border-radius:16px;padding:1.3rem 1.4rem 1.1rem;box-shadow:0 2px 16px rgba(26,20,16,.06);animation:cardIn .35s ease;}
+.q-card{background:var(--parch);border:2px solid var(--gold-lt);border-radius:4px;padding:1.3rem 1.4rem 1.1rem;box-shadow:2px 3px 12px rgba(60,20,0,.18),inset 0 0 20px rgba(180,120,40,.05);animation:cardIn .35s ease;}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .q-meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;flex-wrap:wrap;}
 .q-num{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
 .q-cat{font-size:.68rem;color:var(--muted);font-style:italic;}
-.q-text{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.3rem);line-height:1.55;color:var(--ink);border-left:3px solid var(--gold);padding-left:1rem;}
+.q-text{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.3rem);line-height:1.55;color:var(--sepia);border-left:4px solid var(--wood);padding-left:1rem;}
 
 /* Options */
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;}
-.opt{background:white;border:2px solid var(--border);border-radius:12px;padding:.75rem .9rem;display:flex;align-items:center;gap:.6rem;font-size:.88rem;color:var(--ink);cursor:pointer;transition:border-color .2s,background .2s,transform .1s;animation:optIn .3s ease both;user-select:none;}
+.opt{background:var(--parch);border:2px solid var(--gold-lt);border-radius:4px;padding:.75rem .9rem;display:flex;align-items:center;gap:.6rem;font-size:.88rem;color:var(--ink);cursor:pointer;transition:border-color .2s,background .2s,transform .1s;animation:optIn .3s ease both;user-select:none;}
 .opt:nth-child(1){animation-delay:.04s}.opt:nth-child(2){animation-delay:.08s}
 .opt:nth-child(3){animation-delay:.12s}.opt:nth-child(4){animation-delay:.16s}
 @keyframes optIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
-.opt:not(.correct):not(.timeout):not(.disabled):hover{border-color:var(--gold);background:#FFFBF4;transform:translateX(3px);}
+.opt:not(.correct):not(.wrong):not(.timeout):not(.disabled):hover{border-color:var(--wood);background:var(--ivory-2);transform:translateX(3px);}
 .opt-l{width:26px;height:26px;border-radius:50%;background:var(--ivory-2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:var(--muted);flex-shrink:0;}
 .opt.correct{border-color:var(--correct);background:var(--correct-lt);}
 .opt.correct .opt-l{background:var(--correct);border-color:var(--correct);color:white;}
+.opt.wrong{border-color:var(--wrong);background:var(--wrong-lt);opacity:.65;}
+.opt.wrong .opt-l{background:var(--wrong);border-color:var(--wrong);color:white;}
 .opt.timeout{border-color:var(--border);background:var(--ivory-2);opacity:.5;}
 .opt.disabled{cursor:default;pointer-events:none;}
-
-/* Révélation */
-.btn-reveal{width:100%;padding:.8rem 1rem;background:var(--ink);color:white;border:none;border-radius:12px;font-family:"DM Sans",sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:transform .1s,opacity .2s;}
-.btn-reveal:hover{transform:scale(1.01);}
-
-/* Zone de pointage */
-.check-zone{display:none;background:white;border:1px solid var(--border);border-radius:14px;padding:.75rem .85rem .85rem;animation:fadeIn .25s ease;}
-.check-zone.show{display:block;}
-.check-lbl{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.55rem;text-align:center;}
-.check-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;}
-.chk{position:relative;border:2px solid var(--border);background:white;border-radius:12px;padding:.65rem .4rem .55rem;text-align:center;cursor:pointer;font-family:"DM Sans",sans-serif;transition:transform .1s,border-color .2s,background .2s;user-select:none;}
-.chk:hover{transform:translateY(-2px);}
-.chk-name{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.25;display:block;}
-.chk-box{margin:.35rem auto 0;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:transparent;background:var(--ivory-2);transition:background .2s,color .2s,border-color .2s;}
-.chk.on .chk-box{color:white;}
-.check-hint{margin-top:.55rem;font-size:.68rem;color:var(--muted);text-align:center;}
 
 /* Feedback */
 .feedback{padding:.65rem .85rem;border-radius:8px;font-size:.82rem;line-height:1.5;display:none;}
 .feedback.show{display:block;animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .feedback.ok{background:var(--correct-lt);color:var(--correct);border:1px solid #C8E6D3;}
+.feedback.ko{background:var(--wrong-lt);color:var(--wrong);border:1px solid #E8C8C8;}
 .feedback.to{background:var(--ivory-2);color:var(--muted);border:1px solid var(--border);}
 
 /* Panel DJ */
-.dj-panel{background:white;border:1px solid var(--border);border-radius:12px;padding:.55rem .8rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.dj-panel{background:var(--ivory-2);border:2px solid var(--gold-lt);border-radius:4px;padding:.55rem .8rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;box-shadow:inset 0 1px 3px rgba(60,20,0,.1);}
 .dj-lbl{font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:.1rem;}
 .btn-dj{padding:.38rem .7rem;border:none;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;transition:transform .1s,opacity .15s;}
 .btn-dj:hover:not(:disabled){transform:scale(1.05);}
@@ -144,12 +139,15 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 /* Overlay réponse */
 .overlay{position:fixed;inset:0;z-index:100;background:rgba(26,20,16,.55);display:none;align-items:center;justify-content:center;animation:fadeIn .2s ease;}
 .overlay.show{display:flex;}
-.ov-box{background:white;border-radius:18px;padding:2rem 2.2rem;text-align:center;max-width:500px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.14);animation:popIn .3s cubic-bezier(.34,1.56,.64,1);}
+.ov-box{background:var(--parch);border:3px solid var(--wood);border-radius:4px;padding:2rem 2.2rem;text-align:center;max-width:500px;width:90%;box-shadow:0 8px 40px rgba(60,20,0,.3),inset 0 0 30px rgba(180,120,40,.08);animation:popIn .3s cubic-bezier(.34,1.56,.64,1);}
 @keyframes popIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
 .ov-lbl{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;}
 .ov-film{font-family:"Playfair Display",serif;font-weight:700;font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.1;color:var(--ink);margin-bottom:.3rem;}
 .ov-year{font-size:.85rem;color:var(--muted);font-style:italic;}
 .ov-tap{margin-top:1rem;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+
+/* Boutons −1 équipes */
+.rm-btns{display:flex;gap:.4rem;flex-wrap:wrap;}
 
 /* Overlay confirm */
 .ov-msg{font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:1.4rem;line-height:1.4;}
@@ -163,7 +161,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .rtitle{font-family:"Playfair Display",serif;font-size:clamp(2rem,7vw,3.5rem);font-weight:700;color:var(--ink);margin-bottom:.3rem;}
 .rsub{font-size:.88rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.6;max-width:460px;}
 .rscores{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.8rem;width:100%;max-width:520px;}
-.rteam{background:white;border:2px solid var(--border);border-radius:14px;padding:1.1rem;display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+.rteam{background:var(--parch);border:2px solid var(--gold-lt);border-radius:4px;padding:1.1rem;display:flex;flex-direction:column;align-items:center;gap:.25rem;box-shadow:1px 2px 6px rgba(60,20,0,.15);}
 .rteam.winner{transform:scale(1.05);box-shadow:0 4px 24px rgba(201,169,110,.25);border-color:var(--gold);}
 .rname{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
 .rpts{font-family:"Playfair Display",serif;font-size:3rem;font-weight:700;line-height:1;}
@@ -176,7 +174,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .btn-rreplay{background:var(--gold);color:white;}
 
 #confettiCanvas{position:fixed;inset:0;z-index:300;pointer-events:none;}
-@media(max-width:520px){.opts{grid-template-columns:1fr;}.rscores{grid-template-columns:1fr 1fr;}.scoreboard4{grid-template-columns:repeat(2,1fr);}.check-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.opts{grid-template-columns:1fr;}.rscores{grid-template-columns:1fr 1fr;}.scoreboard4{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
@@ -184,7 +182,8 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <!-- ACCUEIL -->
 <div id="sHome">
-  <div class="clap">🤠</div>
+  <div style="font-size:3.5rem;margin-bottom:.3rem;">🤠</div>
+  <div style="font-size:1.5rem;color:var(--gold);letter-spacing:.3em;margin-bottom:.5rem;">★ ★ ★</div>
   <div class="htitle">Quiz <em>Western</em></div>
   <div class="hsub">🐎 Country · Western · Culture US</div>
   <div class="divider"><span>★</span></div>
@@ -197,10 +196,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   </div>
 
   <div class="rules">
-    🎙 <strong>Toutes les équipes répondent à la même question</strong><br>
-    🐎 <strong>40 questions</strong> Western &amp; Country<br>
+    🎙 <strong>Le DJ clique sur la réponse donnée par l’équipe</strong><br>
+    🐎 <strong>40 questions</strong> Western &amp; Country — 10 par équipe en alternance<br>
     ⏱ <strong>15 secondes</strong> par question · pas de pénalité si temps écoulé<br>
-    ✅ Le DJ révèle la réponse puis <strong>coche les équipes qui ont bon</strong> — 1 point chacune
+    ✅ Points attribués <strong>automatiquement</strong> au clic
   </div>
 
   <button class="btn-launch" onclick="startGame()">▶ Lancer le quiz !</button>
@@ -212,11 +211,11 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div style="font-size:3rem;margin-bottom:.7rem;">🤠</div>
   <div class="ititle">Prêts pour le rodeo ?</div>
   <div class="isub">4 équipes · 40 questions · 15 secondes</div>
+  <div style="font-size:1.2rem;color:var(--gold);letter-spacing:.25em;margin-bottom:.8rem;">★ ★ ★</div>
   <div class="team-badges" id="teamBadges"></div>
   <div class="intro-rules">
-    🎙 Tout le monde répond à la même question<br>
+    🎙 Le DJ clique sur la réponse annoncée<br>
     ⏱ 15 secondes — bip dès les 5 dernières<br>
-    ✅ Le DJ coche les équipes qui ont la bonne réponse<br>
     ⚔️ En cas d’égalité, questions de départage !<br>
     🏆 L’équipe avec le plus de points gagne
   </div>
@@ -236,7 +235,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
       <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
       <div style="display:flex;justify-content:space-between;">
         <span class="prog-lbl" id="progLbl">1 / 40</span>
-        <span class="turn-info" id="turnInfo">Toutes les équipes</span>
+        <span class="turn-info" id="turnInfo">Tour Équipe 1</span>
       </div>
     </div>
   </div>
@@ -247,19 +246,11 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   </div>
 
   <div class="opts" id="optsGrid"></div>
-
-  <button class="btn-reveal" id="bReveal" onclick="revealAnswer()">👁 Révéler la réponse</button>
-
-  <div class="check-zone" id="checkZone">
-    <div class="check-lbl">✅ Qui a la bonne réponse ?</div>
-    <div class="check-grid" id="checkGrid"></div>
-    <div class="check-hint">Touche une équipe pour lui donner le point · retouche pour l’annuler</div>
-  </div>
-
   <div class="feedback" id="feedback"></div>
 
   <div class="dj-panel">
     <span class="dj-lbl">🎙 DJ</span>
+    <div class="rm-btns" id="rmBtns"></div>
     <button class="btn-dj btn-hsm" onclick="askHome()">🏠</button>
     <button class="btn-dj btn-nextq" id="bNext" onclick="nextQ()" disabled>Suivant →</button>
   </div>
@@ -267,11 +258,11 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <!-- OVERLAY RÉPONSE -->
 <div class="overlay" id="ovReveal" onclick="closeReveal()">
-  <div class="ov-box">
-    <div class="ov-lbl" id="ovLbl" style="color:var(--correct)">✓ La bonne réponse</div>
+  <div class="ov-box" onclick="event.stopPropagation()">
+    <div class="ov-lbl" id="ovLbl" style="color:var(--correct)">✓ Bonne réponse</div>
     <div class="ov-film" id="ovFilm">—</div>
     <div class="ov-year" id="ovYear"></div>
-    <div class="ov-tap">Tape n’importe où pour continuer</div>
+    <div class="ov-tap">Tap pour continuer</div>
   </div>
 </div>
 
@@ -367,6 +358,21 @@ const Q = [
   {cat:"💡 Bonus",q:"Quelle boisson était la plus consommée dans les saloons de l’Ouest américain ?",ans:"Whisky",wrong:["Bière","Tequila","Rhum"],info:"Le whisky était la boisson de prédilection des cowboys, souvent cut avec de l’eau."},
 ];
 
+// Nouvelles questions films cultes ajoutées
+// (intégrées dans Q[] ci-dessus via push au runtime)
+const Q_EXTRA = [
+  {cat:"🎬 Il était une fois dans l'Ouest",q:"Quel acteur joue l'homme à l'harmonica dans 'Il était une fois dans l'Ouest' de Sergio Leone ?",ans:"Charles Bronson",wrong:["Clint Eastwood","Henry Fonda","Lee Van Cleef"],info:"Charles Bronson incarne l'Homme à l'harmonica, personnage mystérieux assoiffé de vengeance."},
+  {cat:"🎬 Il était une fois dans l'Ouest",q:"Quel acteur joue le rôle du méchant Frank dans 'Il était une fois dans l'Ouest' ?",ans:"Henry Fonda",wrong:["Lee Van Cleef","Jack Palance","Robert Ryan"],info:"Henry Fonda, connu pour ses rôles de héros, surprend en jouant le redoutable Frank."},
+  {cat:"🎬 Il était une fois dans l'Ouest",q:"Quel compositeur a signé la bande originale mythique de 'Il était une fois dans l'Ouest' ?",ans:"Ennio Morricone",wrong:["John Williams","Jerry Goldsmith","Bernard Herrmann"],info:"Ennio Morricone a composé la BO avant même le tournage — Leone dirigeait ses acteurs avec la musique."},
+  {cat:"🎬 Le Bon la Brute et le Truand",q:"Quel est le surnom du personnage joué par Clint Eastwood dans 'Le Bon, la Brute et le Truand' ?",ans:"Le Bon (Blondin)",wrong:["L'Homme sans nom","L'Étranger","Le Pistolero"],info:"Clint Eastwood joue Blondin, surnommé 'Le Bon', dans ce chef-d'œuvre de Sergio Leone (1966)."},
+  {cat:"🎬 Le Bon la Brute et le Truand",q:"Qui joue 'la Brute' (Tuco) dans 'Le Bon, la Brute et le Truand' ?",ans:"Eli Wallach",wrong:["Lee Van Cleef","Jack Elam","Warren Oates"],info:"Eli Wallach compose Tuco, personnage truculent et imprévisible, devenu iconique du western spaghetti."},
+  {cat:"🎬 Le Bon la Brute et le Truand",q:"Dans quelle guerre américaine se déroule 'Le Bon, la Brute et le Truand' ?",ans:"Guerre de Sécession",wrong:["Guerre Hispano-Américaine","Guerre d'Indépendance","Guerre Mexicaine"],info:"Le film se déroule en 1862 pendant la Guerre de Sécession, sur fond de chasse à un trésor confédéré."},
+  {cat:"📺 Yellowstone",q:"Quel acteur joue John Dutton, le patriarche du ranch dans la série Yellowstone ?",ans:"Kevin Costner",wrong:["Tom Hanks","Harrison Ford","Jeff Bridges"],info:"Kevin Costner incarne John Dutton, propriétaire du plus grand ranch du Montana, dans Yellowstone depuis 2018."},
+  {cat:"📺 Yellowstone",q:"Dans quel État américain se situe le ranch Dutton de la série Yellowstone ?",ans:"Montana",wrong:["Wyoming","Colorado","Idaho"],info:"Le ranch Yellowstone s'étend dans le Montana, non loin du Parc National de Yellowstone."},
+  {cat:"📺 Yellowstone",q:"Comment s'appelle la série préquelle de Yellowstone se déroulant dans les années 1880 ?",ans:"1883",wrong:["1923","Dutton","Frontier"],info:"1883 retrace le voyage des ancêtres Dutton depuis l'Europe jusqu'au Montana à travers les Grandes Plaines."},
+  {cat:"🎬 Films cultes",q:"Quel film de 1992 de Clint Eastwood a remporté l'Oscar du meilleur film ?",ans:"Impitoyable",wrong:["Pale Rider","L'Outlaw Josey Wales","Honkytonk Man"],info:"Impitoyable (Unforgiven, 1992) a remporté 4 Oscars dont meilleur film et meilleur réalisateur."},
+];
+
 const TIEBREAK = [
   {cat:"⚔️ Départage",q:"En quelle année le Texas a-t-il intégré les États-Unis après avoir été une république indépendante ?",ans:"1845",wrong:["1836","1861","1898"],info:"Le Texas fut indépendant de 1836 à 1845 avant d’étre annexé par les États-Unis."},
   {cat:"⚔️ Départage",q:"Quel célèbre hors-la-loi forma le gang connu sous le nom de « Hole-in-the-Wall Gang » ?",ans:"Butch Cassidy",wrong:["Jesse James","Billy the Kid","Cole Younger"],info:"Butch Cassidy et le Sundance Kid menaient le Wild Bunch, alias le Hole-in-the-Wall Gang."},
@@ -380,11 +386,11 @@ const TIMER = 15, CIRC = 2 * Math.PI * 25;
 const NT = 4; // nombre d’équipes
 let names = ["Équipe Bleue","Équipe Marron","Équipe Rouge","Équipe Noire"];
 let order = [], cur = 0, scores = [0,0,0,0], answers = [];
-let tInt = null, tLeft = 0, optOrder = [], revealed = false;
-let picked = [false,false,false,false];
+let tInt = null, tLeft = 0, optOrder = [], answered = false;
 let tbMode = false, tbIdx = 0, confirmCb = null;
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function curTeam(){return cur % NT;}
 function tn(t){return names[t];}
 function tc(t){return TEAM_COLORS[t];}
 
@@ -399,6 +405,8 @@ function goHome(){
 
 function startGame(){
   for(let i=0;i<NT;i++) names[i]=document.getElementById("n"+i).value.trim()||names[i];
+  // Intégrer les questions bonus films cultes
+  Q_EXTRA.forEach(q => Q.push(q));
   order=shuffle([...Array(Q.length).keys()]);
   cur=0;scores=[0,0,0,0];answers=[];tbMode=false;tbIdx=0;
 
@@ -420,7 +428,6 @@ function launchGame(){
   document.getElementById("sIntro").style.display="none";
   document.getElementById("sGame").style.display="flex";
   buildScoreboard();
-  buildCheckGrid();
   requestFSAuto();
   renderQ();
 }
@@ -437,81 +444,46 @@ function buildScoreboard(){
     d.innerHTML="<div class=\"sb4-name\" style=\"color:"+c.main+"\">"+n+"</div><div class=\"sb4-pts\" id=\"sp"+i+"\" style=\"color:"+c.main+"\">0</div>";
     sb.appendChild(d);
   });
+  buildRmBtns();
 }
 
-// ═══════════════════════════════════════
-//  GRILLE DE POINTAGE (le DJ coche)
-// ═══════════════════════════════════════
-function buildCheckGrid(){
-  const g=document.getElementById("checkGrid");g.innerHTML="";
+function buildRmBtns(){
+  const rb=document.getElementById("rmBtns");rb.innerHTML="";
   names.forEach((n,i)=>{
     const c=tc(i);
-    const d=document.createElement("div");d.className="chk";d.id="chk"+i;
-    d.style.cssText="border-color:"+c.bd+";";
-    d.innerHTML="<span class=\"chk-name\" style=\"color:"+c.main+"\">"+n+"</span><div class=\"chk-box\" id=\"chkb"+i+"\">✓</div>";
-    d.onclick=()=>toggleTeam(i);
-    g.appendChild(d);
+    const btn=document.createElement("button");btn.className="btn-dj";
+    btn.style.cssText="background:"+c.lt+";color:"+c.main+";border:1.5px solid "+c.bd+";";
+    btn.textContent="−1 "+n.split(" ")[1]||n;
+    btn.onclick=()=>askRemove(i);
+    rb.appendChild(btn);
   });
-}
-
-function toggleTeam(i){
-  if(!revealed)return;
-  const c=tc(i);
-  const el=document.getElementById("chk"+i),box=document.getElementById("chkb"+i);
-  picked[i]=!picked[i];
-  if(picked[i]){
-    scores[i]++;
-    el.classList.add("on");el.style.background=c.lt;el.style.borderColor=c.main;
-    box.style.background=c.main;box.style.borderColor=c.main;
-    soundPoint();
-  } else {
-    scores[i]=Math.max(0,scores[i]-1);
-    el.classList.remove("on");el.style.background="white";el.style.borderColor=c.bd;
-    box.style.background="";box.style.borderColor="";
-  }
-  document.getElementById("sp"+i).textContent=scores[i];
-  animScore(i);
-  updateFeedback();
-}
-
-function resetChecks(){
-  picked=[false,false,false,false];
-  names.forEach((n,i)=>{
-    const c=tc(i);
-    const el=document.getElementById("chk"+i),box=document.getElementById("chkb"+i);
-    if(!el)return;
-    el.classList.remove("on");el.style.background="white";el.style.borderColor=c.bd;
-    box.style.background="";box.style.borderColor="";
-  });
-}
-
-function updateFeedback(){
-  const n=picked.filter(Boolean).length;
-  const fb=document.getElementById("feedback");
-  if(n===0){fb.textContent="Aucune équipe n’a trouvé… 🌵";fb.className="feedback show to";}
-  else{
-    const list=names.filter((x,i)=>picked[i]).join(", ");
-    fb.textContent="✓ +1 point pour "+list+" 🤠";fb.className="feedback show ok";
-  }
 }
 
 function updateScores(){
-  names.forEach((n,i)=>{document.getElementById("sp"+i).textContent=scores[i];});
+  names.forEach((n,i)=>{
+    document.getElementById("sp"+i).textContent=scores[i];
+    const sb=document.getElementById("sb"+i);
+    sb.className="sb4"+(i===curTeam()?" active":"");
+    if(i===curTeam()) sb.style.borderColor=tc(i).main;
+    else sb.style.borderColor=tc(i).bd;
+  });
 }
 
 // ═══════════════════════════════════════
 //  RENDER QUESTION
 // ═══════════════════════════════════════
 function renderQ(){
-  stopTimer();revealed=false;resetChecks();
+  stopTimer();answered=false;
   const q=tbMode?TIEBREAK[tbIdx]:Q[order[cur]];
   const total=Q.length;
+  const t=curTeam();
 
   updateScores();
+  document.getElementById("turnInfo").textContent="Tour de "+tn(t);
+  document.getElementById("turnInfo").style.color=tc(t).main;
 
-  document.getElementById("progFill").style.width=(tbMode?100:(cur/total*100))+"%";
-  document.getElementById("progLbl").textContent=tbMode?("Départage "+(tbIdx+1)+" / "+TIEBREAK.length):((cur+1)+" / "+total);
-  document.getElementById("turnInfo").textContent=tbMode?"Départage":"Toutes les équipes";
+  document.getElementById("progFill").style.width=(cur/total*100)+"%";
+  document.getElementById("progLbl").textContent=(cur+1)+" / "+total;
 
   document.getElementById("qNum").textContent=tbMode?"Départage "+(tbIdx+1):"Question "+(cur+1);
   document.getElementById("qCat").textContent=q.cat;
@@ -525,15 +497,12 @@ function renderQ(){
   ["A","B","C","D"].forEach((l,i)=>{
     const d=document.createElement("div");d.className="opt";d.id="opt"+i;
     d.innerHTML="<span class=\"opt-l\">"+l+"</span><span>"+optOrder[i]+"</span>";
-    d.addEventListener("click",revealAnswer);
+    const ans=q.ans,info=q.info||"";
+    d.addEventListener("click",()=>pickOpt(i,optOrder[i],ans,info));
     grid.appendChild(d);
   });
 
-  document.getElementById("checkZone").classList.remove("show");
-  document.getElementById("bReveal").style.display="block";
-  document.getElementById("bReveal").textContent="👁 Révéler la réponse";
   document.getElementById("feedback").className="feedback";
-
   document.getElementById("bNext").disabled=true;
   const bn=document.getElementById("bNext");
   bn.className=(!tbMode&&cur===total-1)?"btn-dj btn-nextq fin":"btn-dj btn-nextq";
@@ -543,35 +512,36 @@ function renderQ(){
 }
 
 // ═══════════════════════════════════════
-//  RÉVÉLATION DE LA RÉPONSE
+//  PICK OPTION
 // ═══════════════════════════════════════
-function revealAnswer(){
-  if(revealed)return;revealed=true;stopTimer();
-  const q=tbMode?TIEBREAK[tbIdx]:Q[order[cur]];
-  const correct=q.ans,info=q.info||"";
+function pickOpt(idx,chosen,correct,info){
+  if(answered)return;answered=true;stopTimer();
+  const t=curTeam();
+  const isRight=chosen===correct;
 
   optOrder.forEach((o,i)=>{
     const el=document.getElementById("opt"+i);if(!el)return;
     el.classList.add("disabled");
     if(o===correct)el.classList.add("correct");
+    else if(i===idx&&!isRight)el.classList.add("wrong");
     else el.classList.add("timeout");
   });
 
-  document.getElementById("ovLbl").textContent="✓ La bonne réponse";
-  document.getElementById("ovLbl").style.color="var(--correct)";
+  if(isRight){scores[t]++;document.getElementById("sp"+t).textContent=scores[t];animScore(t);soundCorrect();}
+  else soundWrong();
+
+  const fb=document.getElementById("feedback");
+  if(isRight){fb.textContent="✓ Bravo "+tn(t)+" ! +1 point 🤠 "+info;fb.className="feedback show ok";}
+  else{fb.textContent="✗ C’était : "+correct+" — "+info;fb.className="feedback show ko";}
+
+  document.getElementById("ovLbl").textContent=isRight?"✓ Bonne réponse !":"✗ La bonne réponse était…";
+  document.getElementById("ovLbl").style.color=isRight?"var(--correct)":"var(--wrong)";
   document.getElementById("ovFilm").textContent=correct;
   document.getElementById("ovYear").textContent=info;
   document.getElementById("ovReveal").classList.add("show");
 
-  document.getElementById("bReveal").style.display="none";
-  document.getElementById("checkZone").classList.add("show");
+  answers.push({team:t,correct,result:isRight?"ok":"ko"});
   document.getElementById("bNext").disabled=false;
-
-  const fb=document.getElementById("feedback");
-  fb.textContent="Réponse : "+correct+" — "+info;
-  fb.className="feedback show to";
-
-  soundReveal();
 }
 
 function closeReveal(){document.getElementById("ovReveal").classList.remove("show");}
@@ -581,19 +551,19 @@ function closeReveal(){document.getElementById("ovReveal").classList.remove("sho
 // ═══════════════════════════════════════
 function nextQ(){
   closeReveal();
-  answers.push({q:tbMode?"tb"+tbIdx:cur,picked:picked.slice()});
   if(tbMode){
     tbIdx++;
+    // Check if a team is now ahead
     const max=Math.max(...scores);
     const winners=scores.filter(s=>s===max).length;
     if(winners===1||tbIdx>=TIEBREAK.length){showResult();return;}
-    renderQ();return;
+    answered=false;renderQ();return;
   }
   cur++;
   if(cur>=Q.length){
     const max=Math.max(...scores);
     const tied=scores.filter(s=>s===max).length;
-    if(tied>1){tbMode=true;tbIdx=0;renderQ();}
+    if(tied>1){tbMode=true;tbIdx=0;answered=false;renderQ();}
     else showResult();
   } else renderQ();
 }
@@ -610,14 +580,16 @@ function updateChrono(t){
   if(u)soundTick(t);
 }
 function handleTimeout(){
-  if(revealed)return;
-  document.getElementById("feedback").textContent="⏱ Temps écoulé ! Ramasse les réponses puis révèle la solution…";
+  if(answered)return;
+  document.getElementById("feedback").textContent="⏱ Temps écoulé ! Le DJ révèle la réponse…";
   document.getElementById("feedback").className="feedback show to";
+  document.getElementById("bNext").disabled=false;
 }
 
 // ═══════════════════════════════════════
 //  DJ CONTROLS
 // ═══════════════════════════════════════
+function askRemove(t){showConfirm("Retirer 1 point à "+tn(t)+" ?",()=>{if(scores[t]>0){scores[t]--;document.getElementById("sp"+t).textContent=scores[t];}});}
 function askHome(){showConfirm("Quitter la partie en cours ?",()=>goHome());}
 function showConfirm(msg,cb){confirmCb=cb;document.getElementById("ovMsg").textContent=msg;document.getElementById("ovC").classList.add("show");}
 function confirmYes(){if(confirmCb)confirmCb();closeConfirm();}
@@ -657,6 +629,7 @@ function showResult(){
   document.getElementById("rsub").textContent=sub;
 
   const rs=document.getElementById("rscores");rs.innerHTML="";
+  // Trier par score décroissant
   const sorted=[0,1,2,3].sort((a,b)=>scores[b]-scores[a]);
   sorted.forEach(i=>{
     const c=tc(i);const isWin=scores[i]===max;
@@ -685,8 +658,28 @@ function beep(f,d,v,t,w){const ac=getAC();if(!ac)return;v=v||.3;t=t||"sine";w=w!
 function noise(d,v,w,ac){const buf=ac.createBuffer(1,Math.floor(ac.sampleRate*d),ac.sampleRate);const da=buf.getChannelData(0);for(let i=0;i<da.length;i++)da[i]=(Math.random()*2-1)*Math.pow(1-i/da.length,1.2);const s=ac.createBufferSource(),g=ac.createGain();g.gain.setValueAtTime(v,w);s.buffer=buf;s.connect(g);g.connect(ac.destination);s.start(w);}
 function soundClap(){unlockAudio();const ac=getAC();if(!ac)return;noise(.05,.5,ac.currentTime,ac);beep(900,.04,.18,"square",ac.currentTime);}
 function soundTick(t){unlockAudio();beep(t<=2?1100:750,.07,t<=2?.4:.22,"square");}
-function soundReveal(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;[523,659,784].forEach((f,i)=>beep(f,.18,.28,"sine",n+i*.07));}
-function soundPoint(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;[784,1047].forEach((f,i)=>beep(f,.14,.3,"sine",n+i*.06));noise(.05,.25,n,ac);}
+function soundCorrect(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;[392,523,659,784,1047,1319].forEach((f,i)=>beep(f,.22,.3+i*.08,"sine",n+i*.08));beep(196,.4,.35,"sine",n);for(let r=0;r<12;r++)noise(.07,.32,n+.1+r*.055,ac);}
+function soundWrong(){
+  unlockAudio();const ac=getAC();if(!ac)return;
+  const n=ac.currentTime;
+  // Coup de revolver : bang + ricochet
+  // Bang (bruit basse fréquence)
+  const bufBang=ac.createBuffer(1,Math.floor(ac.sampleRate*.12),ac.sampleRate);
+  const dBang=bufBang.getChannelData(0);
+  for(let i=0;i<dBang.length;i++) dBang[i]=(Math.random()*2-1)*Math.pow(1-i/dBang.length,.4)*.9;
+  const srcBang=ac.createBufferSource(),gBang=ac.createGain();
+  gBang.gain.setValueAtTime(.95,n);gBang.gain.exponentialRampToValueAtTime(.001,n+.12);
+  srcBang.buffer=bufBang;srcBang.connect(gBang);gBang.connect(ac.destination);srcBang.start(n);
+  // Ricochet descendant "piiing"
+  const oRico=ac.createOscillator(),gRico=ac.createGain();
+  oRico.connect(gRico);gRico.connect(ac.destination);
+  oRico.type="sine";
+  oRico.frequency.setValueAtTime(1800,n+.08);
+  oRico.frequency.exponentialRampToValueAtTime(200,n+.55);
+  gRico.gain.setValueAtTime(.4,n+.08);
+  gRico.gain.exponentialRampToValueAtTime(.001,n+.6);
+  oRico.start(n+.08);oRico.stop(n+.65);
+}
 function soundVictory(){unlockAudio();const ac=getAC();if(!ac)return;const n=ac.currentTime;const m=[523,523,523,415,622,523,415,622,523,784,1047],d=[.12,.12,.12,.09,.35,.12,.09,.35,.12,.2,.6];let t=n;m.forEach((f,i)=>{beep(f,d[i],.3+i*.04,"sine",t);t+=d[i]+.02;});for(let r=0;r<18;r++)noise(.07,.35,n+.2+r*.06,ac);}
 
 // ═══════════════════════════════════════
